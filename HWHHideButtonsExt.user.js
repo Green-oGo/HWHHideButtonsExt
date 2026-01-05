@@ -13,8 +13,8 @@
 // @match            https://www.hero-wars.com/*
 // @match            https://apps-1701433570146040.apps.fbsbx.com/*
 // @run-at           document-start
-// @downloadURL https://update.greasyfork.org/scripts/555038/HWHHideButtonsExt.user.js
-// @updateURL https://update.greasyfork.org/scripts/555038/HWHHideButtonsExt.meta.js
+// @downloadURL https://github.com/Green-oGo/HWHHideButtonsExt/raw/refs/heads/main/HWHHideButtonsExt.user.js
+// @updateURL https://github.com/Green-oGo/HWHHideButtonsExt/raw/refs/heads/main/HWHHideButtonsExt.user.js
 // ==/UserScript==
 
 (async function () {
