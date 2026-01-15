@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.8
+// @version          2.9
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -150,6 +150,7 @@
         LR_LUCKY_ROAD_RESULT: `Lucky coins spent: <span style="color:Lime;"> {counter} </span>
           <br> Emeralds received: <span style="color:Lime;"> {starMoney} </span>`,
         LR_LUCKY_ROAD_PROGRESS: `Lucky coins spent: <span style="color:Lime;"> {counter} </span> / {luckyCoin}`,
+        LR_NOT_ENOUGH_COINS: '<span style="font-size: 30px;">No coins</span><br> <span style="color: LimeGreen; font-size: 30px;">No money, no honey </span>',
     };
 
     i18nLangData['en'] = Object.assign(i18nLangData['en'], i18nLangDataEn);
@@ -272,6 +273,7 @@
         LR_LUCKY_ROAD_RESULT: `Потрачено монет удачи: <span style="color:Lime;"> {counter} </span>
           <br> Получено изумрудов: <span style="color:Lime;"> {starMoney} </span>`,
         LR_LUCKY_ROAD_PROGRESS: `Потрачено монет удачи: <span style="color:Lime;"> {counter} </span> / {luckyCoin}`,
+        LR_NOT_ENOUGH_COINS: '<span style="font-size: 30px;">Нэт Монэт</span><br> <span style="color: LimeGreen; font-size: 30px;">Ноу мани - ноу хани</span>',
     };
 
     i18nLangData['ru'] = Object.assign(i18nLangData['ru'], i18nLangDataRu);
@@ -440,6 +442,9 @@
         let counter = 0;
         let cycle = true;
         while (cycle) {
+            //Собрать награды
+            await questFarm();
+
             luckyCoin = 0;
             let inventoryGet = await Caller.send('inventoryGet');
             if (inventoryGet.coin[59]) {
@@ -458,8 +463,10 @@
                 }
                 counter += 1;
             }
-            //Собрать награды
-            await questFarm();
+        }
+        if (counter == 0){
+            confShow(I18N('LR_NOT_ENOUGH_COINS'));
+            return;
         }
         result = await Caller.send('userGetInfo');
         let starMoneyEnd = result.starMoney;
