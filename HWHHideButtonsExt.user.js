@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.7
+// @version          2.8
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -144,6 +144,12 @@
         IS_TURN_ON_TIMER_TITLE: 'Turn on hourly automatic skills improvement',
         IS_TURN_OFF_TIMER_TITLE: 'Turn off hourly automatic skills improvement',
         IS_IMPROVING_SKILLS_TIMER_RESULT: `Hero skills improved <span style="color: Lime;">{skillPointsSpent}</span> times <br> Next upgrade in 1 hour`,
+        LR_LUCKY_ROAD:'Lucky Road',
+        LR_LUCKY_ROAD_TITLE:'Spend lucky coins',
+        LR_NO_EVENT: 'The event is not active',
+        LR_LUCKY_ROAD_RESULT: `Lucky coins spent: <span style="color:Lime;"> {counter} </span>
+          <br> Emeralds received: <span style="color:Lime;"> {starMoney} </span>`,
+        LR_LUCKY_ROAD_PROGRESS: `Lucky coins spent: <span style="color:Lime;"> {counter} </span> / {luckyCoin}`,
     };
 
     i18nLangData['en'] = Object.assign(i18nLangData['en'], i18nLangDataEn);
@@ -260,6 +266,12 @@
         IS_TURN_OFF_TIMER_TITLE: 'Выключить автоматическое улучшение умений каждый час',
         IS_IMPROVING_SKILLS_TIMER_RESULT: `Умения героев улучшены <span style="color: Lime;">{skillPointsSpent}</span> раз
           <br> Следующее улучшение умений через час`,
+        LR_LUCKY_ROAD:'Дорога удачи',
+        LR_LUCKY_ROAD_TITLE:'Потратить монеты удачи',
+        LR_NO_EVENT: 'Ивент не активен',
+        LR_LUCKY_ROAD_RESULT: `Потрачено монет удачи: <span style="color:Lime;"> {counter} </span>
+          <br> Получено изумрудов: <span style="color:Lime;"> {starMoney} </span>`,
+        LR_LUCKY_ROAD_PROGRESS: `Потрачено монет удачи: <span style="color:Lime;"> {counter} </span> / {luckyCoin}`,
     };
 
     i18nLangData['ru'] = Object.assign(i18nLangData['ru'], i18nLangDataRu);
@@ -399,6 +411,60 @@
 		},
 		color: 'pink',
 	});
+
+    othersPopupButtons.push({
+        get msg() {
+            return I18N('LR_LUCKY_ROAD');
+        },
+        get title() {
+            return I18N('LR_LUCKY_ROAD_TITLE');
+        },
+        result:async function () {
+            await onClickLuckyRoad();
+        },
+        color: 'pink',
+    });
+
+    async function onClickLuckyRoad() {
+        let result = await Caller.send('lineGacha_getInfo');
+        if (result == null){
+            confShow(I18N('LR_NO_EVENT'));
+            return;
+        }
+        let roadId = result.gachaId;
+        result = await Caller.send('userGetInfo');
+        let starMoneyStart = result.starMoney;
+
+        //Дорога удачи
+        let luckyCoin = 0;
+        let counter = 0;
+        let cycle = true;
+        while (cycle) {
+            luckyCoin = 0;
+            let inventoryGet = await Caller.send('inventoryGet');
+            if (inventoryGet.coin[59]) {
+                luckyCoin = inventoryGet.coin[59];
+            }
+            if (luckyCoin == 0) {
+                cycle = false;
+                break;
+            }
+            for (let i = 1; i <= luckyCoin; i++){
+                try{
+                    await Caller.send({name: 'lineGacha_rollReward', args: {id:roadId}});
+                    setProgress(I18N('LR_LUCKY_ROAD_PROGRESS', {counter: i, luckyCoin }), false, hideProgress);
+                } catch (e) {
+                    break;
+                }
+                counter += 1;
+            }
+            //Собрать награды
+            await questFarm();
+        }
+        result = await Caller.send('userGetInfo');
+        let starMoneyEnd = result.starMoney;
+        confShow(`${I18N('LR_LUCKY_ROAD_RESULT', { counter, starMoney: starMoneyEnd-starMoneyStart })}`);
+    }
 
     async function onClickSettings() {
         let colorMainButtons = getSaveVal('colorMainButtons', false);
@@ -663,8 +729,6 @@
                 button.color = color;
             }
         }
-        console.log(othersPopupButtons);
-        console.log(newOthersPopupButtons);
         newOthersPopupButtons.push({ result: false, isClose: true });
 
         const answer = await popup.confirm(`${I18N('CHOOSE_ACTION')}:`, newOthersPopupButtons);
@@ -1009,5 +1073,195 @@
                ).sort((a, b) => a.tier - b.tier).map((e) => e.id);
         //console.log(skils);
         return skils;
+    }
+
+    async function questFarm() {
+        try {
+            const [questGetAll, mailGetAll, specialOffer, battlePassInfo, battlePassSpecial] = await Caller.send([
+                'questGetAll',
+                'mailGetAll',
+                'specialOffer_getAll',
+                'battlePass_getInfo',
+                'battlePass_getSpecial',
+            ]);
+            const questsFarm = questGetAll.filter((e) => e.state == 2);
+            const mailFarm = mailGetAll?.letters || [];
+            const stagesOffers = specialOffer.filter(e => e.offerType === "stagesOffer" && e.farmedStage == -1);
+
+            const listBattlePass = {
+                [battlePassInfo.id]: battlePassInfo.battlePass,
+                ...battlePassSpecial,
+            };
+
+            for (const passId in listBattlePass) {
+                const battlePass = listBattlePass[passId];
+                const levels = Object.values(lib.data.battlePass.level).filter((x) => x.battlePass == passId);
+                battlePass.level = Math.max(...levels.filter((p) => battlePass.exp >= p.experience).map((p) => p.level));
+            }
+
+            const specialQuests = lib.getData('quest').special;
+            const questBattlePass = lib.getData('quest').battlePass;
+            const { questChain: questChainBPass } = lib.getData('battlePass');
+            const currentTime = Date.now();
+
+            const farmCaller = new Caller();
+
+            for (const offer of stagesOffers) {
+                const offerId = offer.id;
+                //const stage = 0 - offer.farmedStage;
+                for (const stage of offer.offerData.stages) {
+                    if (stage.billingId) {
+                        break;
+                    }
+                    farmCaller.add({
+                        name: 'specialOffer_farmReward',
+                        args: { offerId },
+                    });
+                }
+            }
+
+            const farmQuestIds = [];
+            const questIds = [];
+            for (let quest of questsFarm) {
+                const questId = +quest.id;
+
+                if (questId >= 2001e4 && questId < 14e8) {
+                    continue;
+                }
+
+                if (quest.reward?.battlePassExp && !specialQuests[questId]) {
+                    const questInfo = questBattlePass[questId];
+                    if (!questInfo) {
+                        continue;
+                    }
+                    const chain = questChainBPass[questInfo.chain];
+                    const battlePass = listBattlePass[chain.battlePass];
+                    if (!battlePass) {
+                        continue;
+                    }
+                    // Наличие золотого билета
+                    if (chain.requirement?.battlePassTicket && !battlePass.ticket) {
+                        continue;
+                    }
+                    // Соответствие требований по уровню
+                    if (chain.requirement?.battlePassLevel && battlePass.level < chain.requirement.battlePassLevel) {
+                        continue;
+                    }
+                    const startTime = battlePass.startDate * 1e3;
+                    const endTime = battlePass.endDate * 1e3;
+                    // Соответствие даты проведения
+                    if (startTime > currentTime || endTime < currentTime) {
+                        continue;
+                    }
+                }
+
+                if (questId >= 2e7 && questId < 14e8) {
+                    questIds.push(questId);
+                    farmQuestIds.push(questId);
+                    continue;
+                }
+
+                farmCaller.add({
+                    name: 'questFarm',
+                    args: { questId },
+                });
+                farmQuestIds.push(questId);
+            }
+
+            if (questIds.length) {
+                farmCaller.add({
+                    name: 'quest_questsFarm',
+                    args: { questIds },
+                });
+            }
+
+            const { Letters } = HWHClasses;
+            const letterIds = Letters.filter(mailFarm);
+            if (letterIds.length) {
+                farmCaller.add({
+                    name: 'mailFarm',
+                    args: { letterIds },
+                });
+            }
+
+            if (farmCaller.isEmpty()) {
+                return;
+            }
+
+            const farmResults = await farmCaller.send();
+
+            let countQuests = 0;
+            let countMail = 0;
+            let questsIds = [];
+
+            const questFarm = farmResults.result('questFarm', true);
+            countQuests += questFarm.length;
+            countQuests += questIds.length;
+            countMail += Object.keys(farmResults.result('mailFarm')).length;
+
+            const sideResult = farmResults.sideResult('questFarm', true);
+            sideResult.push(...farmResults.sideResult('quest_questsFarm', true));
+
+            for (let side of sideResult) {
+                const quests = [...(side.newQuests ?? []), ...(side.quests ?? [])];
+                for (let quest of quests) {
+                    if ((quest.id < 1e6 || (quest.id >= 2e7 && quest.id < 2001e4)) && quest.state == 2) {
+                        questsIds.push(quest.id);
+                    }
+                }
+            }
+            questsIds = [...new Set(questsIds)];
+
+            while (questsIds.length) {
+                const recursiveCaller = new Caller();
+                const newQuestIds = [];
+
+                for (let questId of questsIds) {
+                    if (farmQuestIds.includes(questId)) {
+                        continue;
+                    }
+                    if (questId < 1e6) {
+                        recursiveCaller.add({
+                            name: 'questFarm',
+                            args: { questId },
+                        });
+                        farmQuestIds.push(questId);
+                        countQuests++;
+                    } else if (questId >= 2e7 && questId < 2001e4) {
+                        farmQuestIds.push(questId);
+                        newQuestIds.push(questId);
+                        countQuests++;
+                    }
+                }
+
+                if (newQuestIds.length) {
+                    recursiveCaller.add({
+                        name: 'quest_questsFarm',
+                        args: { questIds: newQuestIds },
+                    });
+                }
+
+                questsIds = [];
+                if (recursiveCaller.isEmpty()) {
+                    break;
+                }
+
+                await recursiveCaller.send();
+                const sideResult = recursiveCaller.sideResult('questFarm', true);
+                sideResult.push(...recursiveCaller.sideResult('quest_questsFarm', true));
+
+                for (let side of sideResult) {
+                    const quests = [...(side.newQuests ?? []), ...(side.quests ?? [])];
+                    for (let quest of quests) {
+                        if ((quest.id < 1e6 || (quest.id >= 2e7 && quest.id < 2001e4)) && quest.state == 2) {
+                            questsIds.push(quest.id);
+                        }
+                    }
+                }
+                questsIds = [...new Set(questsIds)];
+            }
+        } catch (error) {
+            console.error('Error in questAllFarm:', error);
+        }
     }
 })();
