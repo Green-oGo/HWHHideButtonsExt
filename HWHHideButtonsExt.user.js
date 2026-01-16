@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.9
+// @version          2.10
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -1083,192 +1083,16 @@
     }
 
     async function questFarm() {
-        try {
-            const [questGetAll, mailGetAll, specialOffer, battlePassInfo, battlePassSpecial] = await Caller.send([
-                'questGetAll',
-                'mailGetAll',
-                'specialOffer_getAll',
-                'battlePass_getInfo',
-                'battlePass_getSpecial',
-            ]);
-            const questsFarm = questGetAll.filter((e) => e.state == 2);
-            const mailFarm = mailGetAll?.letters || [];
-            const stagesOffers = specialOffer.filter(e => e.offerType === "stagesOffer" && e.farmedStage == -1);
-
-            const listBattlePass = {
-                [battlePassInfo.id]: battlePassInfo.battlePass,
-                ...battlePassSpecial,
-            };
-
-            for (const passId in listBattlePass) {
-                const battlePass = listBattlePass[passId];
-                const levels = Object.values(lib.data.battlePass.level).filter((x) => x.battlePass == passId);
-                battlePass.level = Math.max(...levels.filter((p) => battlePass.exp >= p.experience).map((p) => p.level));
-            }
-
-            const specialQuests = lib.getData('quest').special;
-            const questBattlePass = lib.getData('quest').battlePass;
-            const { questChain: questChainBPass } = lib.getData('battlePass');
-            const currentTime = Date.now();
-
-            const farmCaller = new Caller();
-
-            for (const offer of stagesOffers) {
-                const offerId = offer.id;
-                //const stage = 0 - offer.farmedStage;
-                for (const stage of offer.offerData.stages) {
-                    if (stage.billingId) {
-                        break;
-                    }
-                    farmCaller.add({
-                        name: 'specialOffer_farmReward',
-                        args: { offerId },
-                    });
-                }
-            }
-
-            const farmQuestIds = [];
-            const questIds = [];
-            for (let quest of questsFarm) {
-                const questId = +quest.id;
-
-                if (questId >= 2001e4 && questId < 14e8) {
-                    continue;
-                }
-
-                if (quest.reward?.battlePassExp && !specialQuests[questId]) {
-                    const questInfo = questBattlePass[questId];
-                    if (!questInfo) {
-                        continue;
-                    }
-                    const chain = questChainBPass[questInfo.chain];
-                    const battlePass = listBattlePass[chain.battlePass];
-                    if (!battlePass) {
-                        continue;
-                    }
-                    // Наличие золотого билета
-                    if (chain.requirement?.battlePassTicket && !battlePass.ticket) {
-                        continue;
-                    }
-                    // Соответствие требований по уровню
-                    if (chain.requirement?.battlePassLevel && battlePass.level < chain.requirement.battlePassLevel) {
-                        continue;
-                    }
-                    const startTime = battlePass.startDate * 1e3;
-                    const endTime = battlePass.endDate * 1e3;
-                    // Соответствие даты проведения
-                    if (startTime > currentTime || endTime < currentTime) {
-                        continue;
-                    }
-                }
-
-                if (questId >= 2e7 && questId < 14e8) {
-                    questIds.push(questId);
-                    farmQuestIds.push(questId);
-                    continue;
-                }
-
-                farmCaller.add({
-                    name: 'questFarm',
-                    args: { questId },
-                });
-                farmQuestIds.push(questId);
-            }
-
-            if (questIds.length) {
-                farmCaller.add({
-                    name: 'quest_questsFarm',
-                    args: { questIds },
-                });
-            }
-
-            const { Letters } = HWHClasses;
-            const letterIds = Letters.filter(mailFarm);
-            if (letterIds.length) {
-                farmCaller.add({
-                    name: 'mailFarm',
-                    args: { letterIds },
-                });
-            }
-
-            if (farmCaller.isEmpty()) {
-                return;
-            }
-
-            const farmResults = await farmCaller.send();
-
-            let countQuests = 0;
-            let countMail = 0;
-            let questsIds = [];
-
-            const questFarm = farmResults.result('questFarm', true);
-            countQuests += questFarm.length;
-            countQuests += questIds.length;
-            countMail += Object.keys(farmResults.result('mailFarm')).length;
-
-            const sideResult = farmResults.sideResult('questFarm', true);
-            sideResult.push(...farmResults.sideResult('quest_questsFarm', true));
-
-            for (let side of sideResult) {
-                const quests = [...(side.newQuests ?? []), ...(side.quests ?? [])];
-                for (let quest of quests) {
-                    if ((quest.id < 1e6 || (quest.id >= 2e7 && quest.id < 2001e4)) && quest.state == 2) {
-                        questsIds.push(quest.id);
-                    }
-                }
-            }
-            questsIds = [...new Set(questsIds)];
-
-            while (questsIds.length) {
-                const recursiveCaller = new Caller();
-                const newQuestIds = [];
-
-                for (let questId of questsIds) {
-                    if (farmQuestIds.includes(questId)) {
-                        continue;
-                    }
-                    if (questId < 1e6) {
-                        recursiveCaller.add({
-                            name: 'questFarm',
-                            args: { questId },
-                        });
-                        farmQuestIds.push(questId);
-                        countQuests++;
-                    } else if (questId >= 2e7 && questId < 2001e4) {
-                        farmQuestIds.push(questId);
-                        newQuestIds.push(questId);
-                        countQuests++;
-                    }
-                }
-
-                if (newQuestIds.length) {
-                    recursiveCaller.add({
-                        name: 'quest_questsFarm',
-                        args: { questIds: newQuestIds },
-                    });
-                }
-
-                questsIds = [];
-                if (recursiveCaller.isEmpty()) {
-                    break;
-                }
-
-                await recursiveCaller.send();
-                const sideResult = recursiveCaller.sideResult('questFarm', true);
-                sideResult.push(...recursiveCaller.sideResult('quest_questsFarm', true));
-
-                for (let side of sideResult) {
-                    const quests = [...(side.newQuests ?? []), ...(side.quests ?? [])];
-                    for (let quest of quests) {
-                        if ((quest.id < 1e6 || (quest.id >= 2e7 && quest.id < 2001e4)) && quest.state == 2) {
-                            questsIds.push(quest.id);
-                        }
-                    }
-                }
-                questsIds = [...new Set(questsIds)];
-            }
-        } catch (error) {
-            console.error('Error in questAllFarm:', error);
+        const questGetAll = await Caller.send('questGetAll');
+        const questsFarm = questGetAll.filter((e) => e.state == 2 && e.reward.coin?.[59]);
+        let calls = [];
+        for (let quest of questsFarm) {
+            const questId = +quest.id;
+            calls.push({ name: 'questFarm', args: { questId }});
+        }
+        if (calls.length >= 1) {
+            await Caller.send(calls);
         }
     }
+
 })();
