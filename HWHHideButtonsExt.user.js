@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.10
+// @version          2.11
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -147,8 +147,19 @@
         LR_LUCKY_ROAD:'Lucky Road',
         LR_LUCKY_ROAD_TITLE:'Spend lucky coins',
         LR_NO_EVENT: 'The event is not active',
-        LR_LUCKY_ROAD_RESULT: `Lucky coins spent: <span style="color:Lime;"> {counter} </span>
-          <br> Emeralds received: <span style="color:Lime;"> {starMoney} </span>`,
+        LR_LUCKY_ROAD_RESULT_MESSAGE: `Lucky coins spent: <span style="color:Lime;"> {counter} </span>`,
+        LR_LUCKY_ROAD_RESULT:
+          `<br><div class="PopUp_text" style="text-align: left;"> Emeralds: <span style="color:Lime;"> {starMoney} </span> </div>
+          <div class="PopUp_text" style="text-align: left;">Energy: <span style="color:Lime;"> {stamina} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Gold: <span style="color:Lime;"> {gold} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Titan Potion: <span style="color:Lime;"> {titanPotion} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Titan Skin Stones: <span style="color:Lime;"> {titanSkinStone} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Titan Artifact Spheres: <span style="color:Lime;"> {titanArtifactSphere} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Titan Summoning Spheres: <span style="color:Lime;"> {summoningSphere} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Artifact Seal Chests: <span style="color:Lime;"> {artifactSealChest} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Artifact Crown Chests: <span style="color:Lime;"> {artifactCrownChest} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Essence Of The Elements: <span style="color:Lime;"> {essenceOfTheElements} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Elemental Tournament Coins: <span style="color:Lime;"> {elementalTournamentCoin} </span></div>`,
         LR_LUCKY_ROAD_PROGRESS: `Lucky coins spent: <span style="color:Lime;"> {counter} </span> / {luckyCoin}`,
         LR_NOT_ENOUGH_COINS: '<span style="font-size: 30px;">No coins</span><br> <span style="color: LimeGreen; font-size: 30px;">No money, no honey </span>',
     };
@@ -270,8 +281,19 @@
         LR_LUCKY_ROAD:'Дорога удачи',
         LR_LUCKY_ROAD_TITLE:'Потратить монеты удачи',
         LR_NO_EVENT: 'Ивент не активен',
-        LR_LUCKY_ROAD_RESULT: `Потрачено монет удачи: <span style="color:Lime;"> {counter} </span>
-          <br> Получено изумрудов: <span style="color:Lime;"> {starMoney} </span>`,
+        LR_LUCKY_ROAD_RESULT_MESSAGE: `Потрачено монет удачи: <span style="color:Lime;"> {counter} </span>`,
+        LR_LUCKY_ROAD_RESULT:
+          `<br><div class="PopUp_text" style="text-align: left;"> Изумруды: <span style="color:Lime;"> {starMoney} </span> </div>
+          <div class="PopUp_text" style="text-align: left;">Енергия: <span style="color:Lime;"> {stamina} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Золото: <span style="color:Lime;"> {gold} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Зелье титана: <span style="color:Lime;"> {titanPotion} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Камни облика титана: <span style="color:Lime;"> {titanSkinStone} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Сферы артефактов титанов: <span style="color:Lime;"> {titanArtifactSphere} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Сферы призыва титанов: <span style="color:Lime;"> {summoningSphere} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Сундук артефактных печатей: <span style="color:Lime;"> {artifactSealChest} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Сундук артефактных крон: <span style="color:Lime;"> {artifactCrownChest} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Стихийная артефактная эссенция: <span style="color:Lime;"> {essenceOfTheElements} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Монеты турнира стихий: <span style="color:Lime;"> {elementalTournamentCoin} </span></div>`,
         LR_LUCKY_ROAD_PROGRESS: `Потрачено монет удачи: <span style="color:Lime;"> {counter} </span> / {luckyCoin}`,
         LR_NOT_ENOUGH_COINS: '<span style="font-size: 30px;">Нэт Монэт</span><br> <span style="color: LimeGreen; font-size: 30px;">Ноу мани - ноу хани</span>',
     };
@@ -428,49 +450,109 @@
     });
 
     async function onClickLuckyRoad() {
-        let result = await Caller.send('lineGacha_getInfo');
-        if (result == null){
+        let lineGacha_getInfo = await Caller.send('lineGacha_getInfo');
+        if (lineGacha_getInfo == null){
             confShow(I18N('LR_NO_EVENT'));
             return;
         }
-        let roadId = result.gachaId;
-        result = await Caller.send('userGetInfo');
-        let starMoneyStart = result.starMoney;
+        let roadId = lineGacha_getInfo.gachaId;
+        await luckyCoinsFarm();
+        let inventoryGet = await Caller.send('inventoryGet');
+        let luckyCoin = inventoryGet.coin?.[59] ?? 0;
+        if (luckyCoin == 0){
+            confShow(I18N('LR_NOT_ENOUGH_COINS'));
+            return;
+        }
 
-        //Дорога удачи
-        let luckyCoin = 0;
-        let counter = 0;
+        //Сферы призыва титанов
+        let summoningSphereStart = inventoryGet.coin?.[13] ?? 0;
+        //Камень облика титана
+        let titanSkinStoneStart = inventoryGet.coin?.[24] ?? 0;
+        //Монеты турнира стихий
+        let elementalTournamentCoinStart = inventoryGet.coin?.[18] ?? 0;
+        //Сферы артефактов титанов
+        let titanArtifactSphereStart = inventoryGet.consumable?.[55] ?? 0;
+        //Зелье титана
+        let titanPotionStart = inventoryGet.consumable?.[20] ?? 0;
+        //Сундук артефактных печатей
+        let artifactSealChestStart = inventoryGet.consumable?.[71] ?? 0;
+        //Сундук артефактных крон
+        let artifactCrownChestStart = inventoryGet.consumable?.[70] ?? 0;
+        //Стихийная артефактная эссенция
+        let essenceOfTheElementsStart = inventoryGet.consumable?.[53] ?? 0;
+
+        let userGetInfo = await Caller.send('userGetInfo');
+        let starMoneyStart = userGetInfo?.starMoney ?? 0;
+        let goldStart = userGetInfo?.gold ?? 0;
+        let staminaStart = userGetInfo?.refillable[0]?.amount ?? 0;
+
+        let luckyCoinCounter = 0;
         let cycle = true;
         while (cycle) {
-            //Собрать награды
-            await questFarm();
-
-            luckyCoin = 0;
-            let inventoryGet = await Caller.send('inventoryGet');
-            if (inventoryGet.coin[59]) {
-                luckyCoin = inventoryGet.coin[59];
-            }
-            if (luckyCoin == 0) {
-                cycle = false;
-                break;
-            }
             for (let i = 1; i <= luckyCoin; i++){
                 try{
-                    await Caller.send({name: 'lineGacha_rollReward', args: {id:roadId}});
+                    let r = await Caller.send({name: 'lineGacha_rollReward', args: {id: roadId}});
+                    console.log(r);
                     setProgress(I18N('LR_LUCKY_ROAD_PROGRESS', {counter: i, luckyCoin }), false, hideProgress);
                 } catch (e) {
                     break;
                 }
-                counter += 1;
+                luckyCoinCounter += 1;
+            }
+            await luckyCoinsFarm();
+            inventoryGet = await Caller.send('inventoryGet');
+            luckyCoin = inventoryGet.coin?.[59] ?? 0;
+            if (luckyCoin == 0) {
+                cycle = false;
+                break;
             }
         }
-        if (counter == 0){
-            confShow(I18N('LR_NOT_ENOUGH_COINS'));
-            return;
-        }
-        result = await Caller.send('userGetInfo');
-        let starMoneyEnd = result.starMoney;
-        confShow(`${I18N('LR_LUCKY_ROAD_RESULT', { counter, starMoney: starMoneyEnd-starMoneyStart })}`);
+        //Сферы призыва титанов
+        let summoningSphereEnd = inventoryGet.coin?.[13] ?? 0;
+        //Камень облика титана
+        let titanSkinStoneEnd = inventoryGet.coin?.[24] ?? 0;
+        //Монеты турнира стихий
+        let elementalTournamentCoinEnd = inventoryGet.coin?.[18] ?? 0;
+        //Сферы артефактов титанов
+        let titanArtifactSphereEnd = inventoryGet.consumable?.[55] ?? 0;
+        //Зелье титана
+        let titanPotionEnd = inventoryGet.consumable?.[20] ?? 0;
+        //Сундук артефактных печатей
+        let artifactSealChestEnd = inventoryGet.consumable?.[71] ?? 0;
+        //Сундук артефактных крон
+        let artifactCrownChestEnd = inventoryGet.consumable?.[70] ?? 0;
+        //Стихийная артефактная эссенция
+        let essenceOfTheElementsEnd = inventoryGet.consumable?.[53] ?? 0;
+
+        userGetInfo = await Caller.send('userGetInfo');
+        let starMoneyEnd = userGetInfo?.starMoney ?? 0;
+        let goldEnd = userGetInfo?.gold ?? 0;
+        let staminaEnd = userGetInfo?.refillable[0]?.amount ?? 0;
+
+        setProgress("", true);
+        await popup.customPopup(async (complete) => {
+            popup.custom.insertAdjacentHTML(
+                'beforeend',
+                I18N('LR_LUCKY_ROAD_RESULT', {
+                    starMoney: starMoneyEnd-starMoneyStart,
+                    stamina: Math.round((staminaEnd - staminaStart)/100)*100,
+                    gold: goldEnd - goldStart,
+                    titanPotion: titanPotionEnd - titanPotionStart,
+                    titanSkinStone: titanSkinStoneEnd - titanSkinStoneStart,
+                    titanArtifactSphere: titanArtifactSphereEnd - titanArtifactSphereStart,
+                    summoningSphere: summoningSphereEnd - summoningSphereStart,
+                    artifactSealChest: artifactSealChestEnd - artifactSealChestStart,
+                    artifactCrownChest: artifactCrownChestEnd - artifactCrownChestStart,
+                    essenceOfTheElements: essenceOfTheElementsEnd - essenceOfTheElementsStart,
+                    elementalTournamentCoin: elementalTournamentCoinEnd - elementalTournamentCoinStart,
+                }));
+            popup.setMsgText(I18N('LR_LUCKY_ROAD_RESULT_MESSAGE', {counter: luckyCoinCounter}));
+            popup.addButton({ isClose: true }, () => {
+                complete(false);
+                popup.hide();
+            });
+            popup.show();
+        });
     }
 
     async function onClickSettings() {
@@ -1082,7 +1164,7 @@
         return skils;
     }
 
-    async function questFarm() {
+    async function luckyCoinsFarm() {
         const questGetAll = await Caller.send('questGetAll');
         const questsFarm = questGetAll.filter((e) => e.state == 2 && e.reward.coin?.[59]);
         let calls = [];
