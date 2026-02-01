@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.11
+// @version          2.12
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -284,14 +284,14 @@
         LR_LUCKY_ROAD_RESULT_MESSAGE: `Потрачено монет удачи: <span style="color:Lime;"> {counter} </span>`,
         LR_LUCKY_ROAD_RESULT:
           `<br><div class="PopUp_text" style="text-align: left;"> Изумруды: <span style="color:Lime;"> {starMoney} </span> </div>
-          <div class="PopUp_text" style="text-align: left;">Енергия: <span style="color:Lime;"> {stamina} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Энергия: <span style="color:Lime;"> {stamina} </span></div>
           <div class="PopUp_text" style="text-align: left;">Золото: <span style="color:Lime;"> {gold} </span></div>
           <div class="PopUp_text" style="text-align: left;">Зелье титана: <span style="color:Lime;"> {titanPotion} </span></div>
           <div class="PopUp_text" style="text-align: left;">Камни облика титана: <span style="color:Lime;"> {titanSkinStone} </span></div>
           <div class="PopUp_text" style="text-align: left;">Сферы артефактов титанов: <span style="color:Lime;"> {titanArtifactSphere} </span></div>
           <div class="PopUp_text" style="text-align: left;">Сферы призыва титанов: <span style="color:Lime;"> {summoningSphere} </span></div>
           <div class="PopUp_text" style="text-align: left;">Сундук артефактных печатей: <span style="color:Lime;"> {artifactSealChest} </span></div>
-          <div class="PopUp_text" style="text-align: left;">Сундук артефактных крон: <span style="color:Lime;"> {artifactCrownChest} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Сундук артефактных корон: <span style="color:Lime;"> {artifactCrownChest} </span></div>
           <div class="PopUp_text" style="text-align: left;">Стихийная артефактная эссенция: <span style="color:Lime;"> {essenceOfTheElements} </span></div>
           <div class="PopUp_text" style="text-align: left;">Монеты турнира стихий: <span style="color:Lime;"> {elementalTournamentCoin} </span></div>`,
         LR_LUCKY_ROAD_PROGRESS: `Потрачено монет удачи: <span style="color:Lime;"> {counter} </span> / {luckyCoin}`,
@@ -589,7 +589,7 @@
         ];
         popupButtons.push({
             result:async function () {
-                await makeListOfButtons();
+                await returnToOtherButtonMenu();
             },
             isClose: true,
         });
@@ -772,6 +772,12 @@
             return stopTheTimer;
         }
     }
+    async function returnToOtherButtonMenu() {
+        await makeListOfButtons();
+    }
+    async function returnToOtherSettingsMenu() {
+        await onClickSettings();
+    }
 
     async function makeListOfButtons() {
         let colorMainButtons = getSaveVal('colorMainButtons', false);
@@ -896,7 +902,7 @@
             hideSelectedButtons
         );
         if (!answer) {
-            await onClickSettings();
+            await returnToOtherSettingsMenu();
             return;
         }
         const taskList = popup.getCheckBoxes();
@@ -907,7 +913,7 @@
         setSaveVal('hideSelectedButtons', hideSelectedButtons);
         setSaveVal('buttonLanguage', I18N('HIDE_BUTTONS'));
 
-        await makeListOfButtons();
+        await returnToOtherButtonMenu();
     }
 
     async function onClicGraphicsSwitchButton() {
@@ -1028,7 +1034,7 @@
             colors
         );
         if (!answer) {
-            await onClickSettings();
+            await returnToOtherSettingsMenu();
             return;
         }
 
@@ -1046,7 +1052,7 @@
         }
         setSaveVal('colorMainButtons', colorMainButtons);
         setSaveVal('changeColorExtensionButtons', changeColorExtensionButtons);
-        await makeListOfButtons();
+        await returnToOtherButtonMenu();
     }
 
     async function selectHeroes() {
