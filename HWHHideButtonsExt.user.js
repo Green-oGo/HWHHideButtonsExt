@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.12
+// @version          2.13
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -151,6 +151,8 @@
         LR_LUCKY_ROAD_RESULT:
           `<br><div class="PopUp_text" style="text-align: left;"> Emeralds: <span style="color:Lime;"> {starMoney} </span> </div>
           <div class="PopUp_text" style="text-align: left;">Energy: <span style="color:Lime;"> {stamina} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Elemental Catalyst: <span style="color:Lime;"> {elementalCatalyst} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Primal Catalyst: <span style="color:Lime;"> {primalCatalyst} </span></div>
           <div class="PopUp_text" style="text-align: left;">Gold: <span style="color:Lime;"> {gold} </span></div>
           <div class="PopUp_text" style="text-align: left;">Titan Potion: <span style="color:Lime;"> {titanPotion} </span></div>
           <div class="PopUp_text" style="text-align: left;">Titan Skin Stones: <span style="color:Lime;"> {titanSkinStone} </span></div>
@@ -159,7 +161,9 @@
           <div class="PopUp_text" style="text-align: left;">Artifact Seal Chests: <span style="color:Lime;"> {artifactSealChest} </span></div>
           <div class="PopUp_text" style="text-align: left;">Artifact Crown Chests: <span style="color:Lime;"> {artifactCrownChest} </span></div>
           <div class="PopUp_text" style="text-align: left;">Essence Of The Elements: <span style="color:Lime;"> {essenceOfTheElements} </span></div>
-          <div class="PopUp_text" style="text-align: left;">Elemental Tournament Coins: <span style="color:Lime;"> {elementalTournamentCoin} </span></div>`,
+          <div class="PopUp_text" style="text-align: left;">Elemental Tournament Coins: <span style="color:Lime;"> {elementalTournamentCoin} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Nature's Seal: <span style="color:Lime;"> {natueresSeal} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Andvari's Root: <span style="color:Lime;"> {andvarisRoot} </span></div>`,
         LR_LUCKY_ROAD_PROGRESS: `Lucky coins spent: <span style="color:Lime;"> {counter} </span> / {luckyCoin}`,
         LR_NOT_ENOUGH_COINS: '<span style="font-size: 30px;">No coins</span><br> <span style="color: LimeGreen; font-size: 30px;">No money, no honey </span>',
     };
@@ -285,6 +289,8 @@
         LR_LUCKY_ROAD_RESULT:
           `<br><div class="PopUp_text" style="text-align: left;"> Изумруды: <span style="color:Lime;"> {starMoney} </span> </div>
           <div class="PopUp_text" style="text-align: left;">Энергия: <span style="color:Lime;"> {stamina} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Стихийный катализатор: <span style="color:Lime;"> {elementalCatalyst} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Первородный катализатор: <span style="color:Lime;"> {primalCatalyst} </span></div>
           <div class="PopUp_text" style="text-align: left;">Золото: <span style="color:Lime;"> {gold} </span></div>
           <div class="PopUp_text" style="text-align: left;">Зелье титана: <span style="color:Lime;"> {titanPotion} </span></div>
           <div class="PopUp_text" style="text-align: left;">Камни облика титана: <span style="color:Lime;"> {titanSkinStone} </span></div>
@@ -293,7 +299,9 @@
           <div class="PopUp_text" style="text-align: left;">Сундук артефактных печатей: <span style="color:Lime;"> {artifactSealChest} </span></div>
           <div class="PopUp_text" style="text-align: left;">Сундук артефактных корон: <span style="color:Lime;"> {artifactCrownChest} </span></div>
           <div class="PopUp_text" style="text-align: left;">Стихийная артефактная эссенция: <span style="color:Lime;"> {essenceOfTheElements} </span></div>
-          <div class="PopUp_text" style="text-align: left;">Монеты турнира стихий: <span style="color:Lime;"> {elementalTournamentCoin} </span></div>`,
+          <div class="PopUp_text" style="text-align: left;">Монеты турнира стихий: <span style="color:Lime;"> {elementalTournamentCoin} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Печать природы: <span style="color:Lime;"> {natueresSeal} </span></div>
+          <div class="PopUp_text" style="text-align: left;">Корень Андвари: <span style="color:Lime;"> {andvarisRoot} </span></div>`,
         LR_LUCKY_ROAD_PROGRESS: `Потрачено монет удачи: <span style="color:Lime;"> {counter} </span> / {luckyCoin}`,
         LR_NOT_ENOUGH_COINS: '<span style="font-size: 30px;">Нэт Монэт</span><br> <span style="color: LimeGreen; font-size: 30px;">Ноу мани - ноу хани</span>',
     };
@@ -470,16 +478,26 @@
         let titanSkinStoneStart = inventoryGet.coin?.[24] ?? 0;
         //Монеты турнира стихий
         let elementalTournamentCoinStart = inventoryGet.coin?.[18] ?? 0;
+        //Стихийный катализатор
+        let elementalCatalystStart = inventoryGet.coin?.[1084] ?? 0;
+        //Первородный катализатор
+        let primalCatalystStart = inventoryGet.coin?.[1085] ?? 0;
+
         //Сферы артефактов титанов
         let titanArtifactSphereStart = inventoryGet.consumable?.[55] ?? 0;
         //Зелье титана
         let titanPotionStart = inventoryGet.consumable?.[20] ?? 0;
         //Сундук артефактных печатей
         let artifactSealChestStart = inventoryGet.consumable?.[71] ?? 0;
-        //Сундук артефактных крон
+        //Сундук артефактных корон
         let artifactCrownChestStart = inventoryGet.consumable?.[70] ?? 0;
         //Стихийная артефактная эссенция
         let essenceOfTheElementsStart = inventoryGet.consumable?.[53] ?? 0;
+
+        //Печать природы
+        let natueresSealStart = inventoryGet.fragmentTitanArtifact?.[3007] ?? 0;
+        //Корень Андвари
+        let andvarisRootStart = inventoryGet.fragmentTitanArtifact?.[1021] ?? 0;
 
         let userGetInfo = await Caller.send('userGetInfo');
         let starMoneyStart = userGetInfo?.starMoney ?? 0;
@@ -513,16 +531,26 @@
         let titanSkinStoneEnd = inventoryGet.coin?.[24] ?? 0;
         //Монеты турнира стихий
         let elementalTournamentCoinEnd = inventoryGet.coin?.[18] ?? 0;
+        //Стихийный катализатор
+        let elementalCatalystEnd = inventoryGet.coin?.[1084] ?? 0;
+        //Первородный катализатор
+        let primalCatalystEnd = inventoryGet.coin?.[1085] ?? 0;
+
         //Сферы артефактов титанов
         let titanArtifactSphereEnd = inventoryGet.consumable?.[55] ?? 0;
         //Зелье титана
         let titanPotionEnd = inventoryGet.consumable?.[20] ?? 0;
         //Сундук артефактных печатей
         let artifactSealChestEnd = inventoryGet.consumable?.[71] ?? 0;
-        //Сундук артефактных крон
+        //Сундук артефактных корон
         let artifactCrownChestEnd = inventoryGet.consumable?.[70] ?? 0;
         //Стихийная артефактная эссенция
         let essenceOfTheElementsEnd = inventoryGet.consumable?.[53] ?? 0;
+
+        //Печать природы
+        let natueresSealEnd = inventoryGet.fragmentTitanArtifact?.[3007] ?? 0;
+        //Корень Андвари
+        let andvarisRootEnd = inventoryGet.fragmentTitanArtifact?.[1021] ?? 0;
 
         userGetInfo = await Caller.send('userGetInfo');
         let starMoneyEnd = userGetInfo?.starMoney ?? 0;
@@ -536,6 +564,8 @@
                 I18N('LR_LUCKY_ROAD_RESULT', {
                     starMoney: starMoneyEnd-starMoneyStart,
                     stamina: Math.round((staminaEnd - staminaStart)/100)*100,
+                    elementalCatalyst: elementalCatalystEnd - elementalCatalystStart,
+                    primalCatalyst: primalCatalystEnd - primalCatalystStart,
                     gold: goldEnd - goldStart,
                     titanPotion: titanPotionEnd - titanPotionStart,
                     titanSkinStone: titanSkinStoneEnd - titanSkinStoneStart,
@@ -545,6 +575,8 @@
                     artifactCrownChest: artifactCrownChestEnd - artifactCrownChestStart,
                     essenceOfTheElements: essenceOfTheElementsEnd - essenceOfTheElementsStart,
                     elementalTournamentCoin: elementalTournamentCoinEnd - elementalTournamentCoinStart,
+                    natueresSeal: natueresSealEnd - natueresSealStart,
+                    andvarisRoot: andvarisRootEnd - andvarisRootStart
                 }));
             popup.setMsgText(I18N('LR_LUCKY_ROAD_RESULT_MESSAGE', {counter: luckyCoinCounter}));
             popup.addButton({ isClose: true }, () => {
