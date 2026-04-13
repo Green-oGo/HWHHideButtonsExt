@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.13
+// @version          2.14
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -164,7 +164,7 @@
           <div class="PopUp_text" style="text-align: left;">Elemental Tournament Coins: <span style="color:Lime;"> {elementalTournamentCoin} </span></div>
           <div class="PopUp_text" style="text-align: left;">Nature's Seal: <span style="color:Lime;"> {natueresSeal} </span></div>
           <div class="PopUp_text" style="text-align: left;">Andvari's Root: <span style="color:Lime;"> {andvarisRoot} </span></div>`,
-        LR_LUCKY_ROAD_PROGRESS: `Lucky coins spent: <span style="color:Lime;"> {counter} </span> / {luckyCoin}`,
+        LR_LUCKY_ROAD_PROGRESS: `Lucky coins spent: <span style="color:Lime;"> {counter} </span> / {numberOfExchanges}`,
         LR_NOT_ENOUGH_COINS: '<span style="font-size: 30px;">No coins</span><br> <span style="color: LimeGreen; font-size: 30px;">No money, no honey </span>',
     };
 
@@ -302,7 +302,7 @@
           <div class="PopUp_text" style="text-align: left;">Монеты турнира стихий: <span style="color:Lime;"> {elementalTournamentCoin} </span></div>
           <div class="PopUp_text" style="text-align: left;">Печать природы: <span style="color:Lime;"> {natueresSeal} </span></div>
           <div class="PopUp_text" style="text-align: left;">Корень Андвари: <span style="color:Lime;"> {andvarisRoot} </span></div>`,
-        LR_LUCKY_ROAD_PROGRESS: `Потрачено монет удачи: <span style="color:Lime;"> {counter} </span> / {luckyCoin}`,
+        LR_LUCKY_ROAD_PROGRESS: `Потрачено монет удачи: <span style="color:Lime;"> {counter} </span> / {numberOfExchanges}`,
         LR_NOT_ENOUGH_COINS: '<span style="font-size: 30px;">Нэт Монэт</span><br> <span style="color: LimeGreen; font-size: 30px;">Ноу мани - ноу хани</span>',
     };
 
@@ -503,19 +503,28 @@
         let starMoneyStart = userGetInfo?.starMoney ?? 0;
         let goldStart = userGetInfo?.gold ?? 0;
         let staminaStart = userGetInfo?.refillable[0]?.amount ?? 0;
-
         let luckyCoinCounter = 0;
+        let numberOfExchanges = 0;
+        let counter = 0;
         let cycle = true;
         while (cycle) {
-            for (let i = 1; i <= luckyCoin; i++){
-                try{
-                    let r = await Caller.send({name: 'lineGacha_rollReward', args: {id: roadId}});
-                    console.log(r);
-                    setProgress(I18N('LR_LUCKY_ROAD_PROGRESS', {counter: i, luckyCoin }), false, hideProgress);
-                } catch (e) {
-                    break;
+            numberOfExchanges += luckyCoin;
+            while (luckyCoin > 0) {
+                if (luckyCoin > 10){
+                    counter += 10;
+                    await Caller.send({name: 'lineGacha_rollReward', args: {id: roadId, multiple: true}});
+                    setProgress(I18N('LR_LUCKY_ROAD_PROGRESS', {counter: counter, numberOfExchanges: numberOfExchanges }), false, hideProgress);
+                    luckyCoin -= 10;
+                    luckyCoinCounter += 10;
+                    await new Promise((e) => setTimeout(e, 1000));
+                } else {
+                    counter++;
+                    await Caller.send({name: 'lineGacha_rollReward', args: {id: roadId, multiple: false}});
+                    setProgress(I18N('LR_LUCKY_ROAD_PROGRESS', {counter: counter, numberOfExchanges: numberOfExchanges }), false, hideProgress);
+                    luckyCoin--;
+                    luckyCoinCounter++;
+                    await new Promise((e) => setTimeout(e, 200));
                 }
-                luckyCoinCounter += 1;
             }
             await luckyCoinsFarm();
             inventoryGet = await Caller.send('inventoryGet');
@@ -585,6 +594,7 @@
             });
             popup.show();
         });
+        cheats.refreshGame();
     }
 
     async function onClickSettings() {
@@ -668,7 +678,8 @@
                         msg = I18N('IS_TURN_ON_SKILL_IMPROVEMENT_MESSAGE');
                     }
                     setSaveVal('automaticSkillImprovement', automaticSkillImprovement);
-                    confShow(msg);
+                    //confShow(msg);
+                    returnToImprovingSkillssMenu();
                     return;
                 },
                 color: colorButton,
@@ -698,7 +709,8 @@
                         msg = I18N('IS_TURN_ON_TIMER_MESSAGE');
                     }
                     setSaveVal('automaticSkillImprovementTimer', automaticSkillImprovementTimer);
-                    confShow(msg);
+                    //confShow(msg);
+                    returnToImprovingSkillssMenu();
                     return;
                 },
                 color: timerButtonColor,
@@ -722,6 +734,10 @@
             answer();
         }
     };
+
+    function returnToImprovingSkillssMenu() {
+        onClickImprovingSkillss();
+    }
 
     async function automaticallyImproveHeroesSkills() {
         let stopTheTimer = false;
@@ -1090,7 +1106,9 @@
     async function selectHeroes() {
         let heroes = await getAllHeroesWithoutMaxSkills();
         if (heroes.length == 0) {
-            confShow(I18N('IS_HAVE_NO_HEROES'));
+            //confShow(I18N('IS_HAVE_NO_HEROES'));
+            await popup.confirm(I18N('IS_HAVE_NO_HEROES'));
+            returnToImprovingSkillssMenu();
             return;
         }
         let selectedHeroIdsForImprovement = getSaveVal('selectedHeroIdsForImprovement', []);
@@ -1144,6 +1162,7 @@
             newListHeroIds
         );
         if (!answer) {
+            returnToImprovingSkillssMenu();
             return;
         }
         const taskList = popup.getCheckBoxes();
@@ -1154,6 +1173,7 @@
             }
         }
         setSaveVal('selectedHeroIdsForImprovement', selectedHeroIdsForImprovement);
+        returnToImprovingSkillssMenu();
     }
 
     async function getAllHeroesWithoutMaxSkills() {
