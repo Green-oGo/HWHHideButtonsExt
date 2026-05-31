@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.14
+// @version          2.15
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -510,7 +510,7 @@
         while (cycle) {
             numberOfExchanges += luckyCoin;
             while (luckyCoin > 0) {
-                if (luckyCoin > 10){
+                if (luckyCoin >= 10){
                     counter += 10;
                     await Caller.send({name: 'lineGacha_rollReward', args: {id: roadId, multiple: true}});
                     setProgress(I18N('LR_LUCKY_ROAD_PROGRESS', {counter: counter, numberOfExchanges: numberOfExchanges }), false, hideProgress);
