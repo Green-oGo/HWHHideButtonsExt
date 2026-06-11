@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.15
+// @version          2.16
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -165,7 +165,14 @@
           <div class="PopUp_text" style="text-align: left;">Nature's Seal: <span style="color:Lime;"> {natueresSeal} </span></div>
           <div class="PopUp_text" style="text-align: left;">Andvari's Root: <span style="color:Lime;"> {andvarisRoot} </span></div>`,
         LR_LUCKY_ROAD_PROGRESS: `Lucky coins spent: <span style="color:Lime;"> {counter} </span> / {numberOfExchanges}`,
-        LR_NOT_ENOUGH_COINS: '<span style="font-size: 30px;">No coins</span><br> <span style="color: LimeGreen; font-size: 30px;">No money, no honey </span>',
+        LR_NOT_ENOUGH_COINS: '<span style="font-size: 30px;">No money</span><br> <span style="color: LimeGreen; font-size: 30px;">No money, no honey </span>',
+        AC_IMPROVE_CASTLE: 'Upgrade Castle',
+        AC_IMPROVE_CASTLE_TITLE: 'Upgrade Castle in Area of Conquest',
+        AC_HAVE_COINS: `Superior coins available: <span style="color:Lime;"> {haveCoins} </span>`,
+        AC_NEED_TO_SPEND_COINS: `<br> Remaining coins to spend for quests: <span style="color:Lime;"> {remainingCoinsToSpend} </span>`,
+        AC_TASKS_COMPLETED: `<br> <span style="color:Lime;"> Coin spending quests completed </span>`,
+        AC_INCORRECT_VALUE: 'Invalid value',
+        AC_CLAN_CASTLE_UPGRADE: 'Superior coins spent: <span style="color:Lime;"> {spendCoins} </span>',
     };
 
     i18nLangData['en'] = Object.assign(i18nLangData['en'], i18nLangDataEn);
@@ -303,7 +310,14 @@
           <div class="PopUp_text" style="text-align: left;">Печать природы: <span style="color:Lime;"> {natueresSeal} </span></div>
           <div class="PopUp_text" style="text-align: left;">Корень Андвари: <span style="color:Lime;"> {andvarisRoot} </span></div>`,
         LR_LUCKY_ROAD_PROGRESS: `Потрачено монет удачи: <span style="color:Lime;"> {counter} </span> / {numberOfExchanges}`,
-        LR_NOT_ENOUGH_COINS: '<span style="font-size: 30px;">Нэт Монэт</span><br> <span style="color: LimeGreen; font-size: 30px;">Ноу мани - ноу хани</span>',
+        LR_NOT_ENOUGH_COINS: '<span style="font-size: 30px;">Нет монет</span><br>',
+        AC_IMPROVE_CASTLE: 'Улучшить замок',
+        AC_IMPROVE_CASTLE_TITLE: 'Улучшить замок в территории завоеваний',
+        AC_HAVE_COINS: `Имеем монет превосходства: <span style="color:Lime;"> {haveCoins} </span>`,
+        AC_NEED_TO_SPEND_COINS: `<br> Для выполнения заданий осталось потратить: <span style="color:Lime;"> {remainingCoinsToSpend} </span>`,
+        AC_TASKS_COMPLETED: `<br> <span style="color:Lime;"> Задания на трату монет выполнены </span>`,
+        AC_INCORRECT_VALUE: 'Некорректное значение',
+        AC_CLAN_CASTLE_UPGRADE: 'Потрачено монет превосходства: <span style="color:Lime;"> {spendCoins} </span>',
     };
 
     i18nLangData['ru'] = Object.assign(i18nLangData['ru'], i18nLangDataRu);
@@ -456,6 +470,92 @@
         },
         color: 'pink',
     });
+
+    othersPopupButtons.push({
+        get msg() {
+            return I18N('AC_IMPROVE_CASTLE');
+        },
+        get title() {
+            return I18N('AC_IMPROVE_CASTLE_TITLE');
+        },
+        result:async function () {
+            await onClickImproveCastle();
+        },
+        color: 'pink',
+    });
+
+    async function onClickImproveCastle() {
+        let clanCastle_getInfo = await Caller.send('clanCastle_getInfo');
+        if (clanCastle_getInfo == null){
+            confShow(I18N('LR_NO_EVENT'));
+            return;
+        }
+
+        const activeEventQuestChains = Object.values(lib.data.specialQuestEvent.type)
+        .filter(event => {
+            const dates = event.requirement?.questEventDates;
+            if (!dates) return false;
+            const now = new Date();
+            return new Date(dates.startDate) <= now && new Date(dates.endDate) >= now;
+        })
+        .flatMap(event => event.questChains);
+
+        const coinsToSpendAllQuests = Object.values(lib.data.quest.special).filter((quest) => quest.translationMethod == "SpendSuperiorityCoins");
+
+        const eventChainIds = coinsToSpendAllQuests.flatMap((e) => Number(e.eventChainId))
+        const eventChainId = eventChainIds.find(item => activeEventQuestChains.includes(item));
+        const eventQuests = coinsToSpendAllQuests.filter((e) => e.eventChainId == eventChainId);
+
+        const maxCoinsToSpendQuest = eventQuests.reduce((max, item) => (item.farmCondition?.amount || 0) > (max.farmCondition?.amount || 0) ? item : max );
+        const coinId = Number(maxCoinsToSpendQuest.farmCondition.eventFunc.args.id);
+        const maxCoinsToSpend = maxCoinsToSpendQuest.farmCondition.amount;
+        const coinsToSpendQuestId = Number(maxCoinsToSpendQuest.id);
+
+        const inventoryGet = await Caller.send('inventoryGet');
+        const haveCoins = inventoryGet.coin?.[coinId] ?? 0;
+        console.log(haveCoins);
+        if (haveCoins == 0){
+            confShow(I18N('LR_NOT_ENOUGH_COINS'));
+            return;
+        }
+
+        const allQuests = await Caller.send('questGetAll');
+        const quest = allQuests.find((quest) => quest.id == coinsToSpendQuestId);
+        const remainingCoinsToSpend = quest ? maxCoinsToSpend - quest.progress : 0;
+
+        const defaultSpendCoins = haveCoins >= remainingCoinsToSpend ? remainingCoinsToSpend : haveCoins;
+        const needToSpend = remainingCoinsToSpend > 0 ? I18N('AC_NEED_TO_SPEND_COINS', { remainingCoinsToSpend }) : I18N('AC_TASKS_COMPLETED');
+        let message = I18N('AC_HAVE_COINS', {haveCoins}) + needToSpend;
+        let spendCoins = 0;
+        while (true){
+            spendCoins = +(await popup.confirm(message, [
+                {
+                    msg: `${I18N('AC_IMPROVE_CASTLE')}`,
+                    isInput: true,
+                    placeholder: '0',
+                    default: defaultSpendCoins,
+                    color: 'green'
+                },
+                {
+                    msg: I18N('BTN_CANCEL'),
+                    result: 0,
+                    color: 'red'
+                },
+            ]));
+
+            if (spendCoins == 0) {
+                console.log("Отмена");
+                return;
+            }
+            if (!spendCoins || spendCoins < 0 || spendCoins > haveCoins) {
+                await popup.confirm(I18N('AC_INCORRECT_VALUE'));
+                continue;
+            }
+            break;
+        }
+        await Caller.send({name:'clanCastle_upgrade', args: {amount: spendCoins, optionId: 1}});
+        setProgress(I18N('AC_CLAN_CASTLE_UPGRADE', {spendCoins}), true, hideProgress);
+    }
 
     async function onClickLuckyRoad() {
         let lineGacha_getInfo = await Caller.send('lineGacha_getInfo');
