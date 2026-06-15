@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.16
+// @version          2.17
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -145,9 +145,9 @@
         IS_TURN_OFF_TIMER_TITLE: 'Turn off hourly automatic skills improvement',
         IS_IMPROVING_SKILLS_TIMER_RESULT: `Hero skills improved <span style="color: Lime;">{skillPointsSpent}</span> times <br> Next upgrade in 1 hour`,
         LR_LUCKY_ROAD:'Lucky Road',
-        LR_LUCKY_ROAD_TITLE:'Spend lucky coins',
+        LR_LUCKY_ROAD_TITLE:'"Spend lucky" coins',
         LR_NO_EVENT: 'The event is not active',
-        LR_LUCKY_ROAD_RESULT_MESSAGE: `Lucky coins spent: <span style="color:Lime;"> {counter} </span>`,
+        LR_LUCKY_ROAD_RESULT_MESSAGE: `"Lucky coins" spent: <span style="color:Lime;"> {counter} </span>`,
         LR_LUCKY_ROAD_RESULT:
           `<br><div class="PopUp_text" style="text-align: left;"> Emeralds: <span style="color:Lime;"> {starMoney} </span> </div>
           <div class="PopUp_text" style="text-align: left;">Energy: <span style="color:Lime;"> {stamina} </span></div>
@@ -164,15 +164,20 @@
           <div class="PopUp_text" style="text-align: left;">Elemental Tournament Coins: <span style="color:Lime;"> {elementalTournamentCoin} </span></div>
           <div class="PopUp_text" style="text-align: left;">Nature's Seal: <span style="color:Lime;"> {natueresSeal} </span></div>
           <div class="PopUp_text" style="text-align: left;">Andvari's Root: <span style="color:Lime;"> {andvarisRoot} </span></div>`,
-        LR_LUCKY_ROAD_PROGRESS: `Lucky coins spent: <span style="color:Lime;"> {counter} </span> / {numberOfExchanges}`,
+        LR_LUCKY_ROAD_PROGRESS: `"Lucky coins" spent: <span style="color:Lime;"> {counter} </span> / {numberOfExchanges}`,
         LR_NOT_ENOUGH_COINS: '<span style="font-size: 30px;">No money</span><br> <span style="color: LimeGreen; font-size: 30px;">No money, no honey </span>',
         AC_IMPROVE_CASTLE: 'Upgrade Castle',
         AC_IMPROVE_CASTLE_TITLE: 'Upgrade Castle in Area of Conquest',
-        AC_HAVE_COINS: `Superior coins available: <span style="color:Lime;"> {haveCoins} </span>`,
+        AC_HAVE_COINS: `"Superior coins" available: <span style="color:Lime;"> {haveCoins} </span>`,
         AC_NEED_TO_SPEND_COINS: `<br> Remaining coins to spend for quests: <span style="color:Lime;"> {remainingCoinsToSpend} </span>`,
         AC_TASKS_COMPLETED: `<br> <span style="color:Lime;"> Coin spending quests completed </span>`,
         AC_INCORRECT_VALUE: 'Invalid value',
-        AC_CLAN_CASTLE_UPGRADE: 'Superior coins spent: <span style="color:Lime;"> {spendCoins} </span>',
+        AC_CLAN_CASTLE_UPGRADE: '"Superior coins" spent: <span style="color:Lime;"> {spendCoins} </span>',
+        AC_WHEEL_OF_WISHES: 'Wheel of Wishes',
+        AC_WHEEL_OF_WISHES_TITLE: 'Spin the "Wheel of Wishes" in the "Fate\'s Wish" event',
+        LR_WHEEL_OF_WISHES_PROGRESS: `"Wish Coin" spent: <span style="color:Lime;"> {counter} </span> / {numberOfExchanges}`,
+        LR_WHEEL_OF_WISHES_RESULT_MESSAGE: `"Wish Coin" spent: <span style="color:Lime;"> {wishCoincounter} </span>
+        <br> Received the "Seal of Fate": <span style="color:Lime;"> {SealOfFateCounter} </span>`,
     };
 
     i18nLangData['en'] = Object.assign(i18nLangData['en'], i18nLangDataEn);
@@ -290,9 +295,9 @@
         IS_IMPROVING_SKILLS_TIMER_RESULT: `Умения героев улучшены <span style="color: Lime;">{skillPointsSpent}</span> раз
           <br> Следующее улучшение умений через час`,
         LR_LUCKY_ROAD:'Дорога удачи',
-        LR_LUCKY_ROAD_TITLE:'Потратить монеты удачи',
+        LR_LUCKY_ROAD_TITLE:'Потратить "Монеты удачи"',
         LR_NO_EVENT: 'Ивент не активен',
-        LR_LUCKY_ROAD_RESULT_MESSAGE: `Потрачено монет удачи: <span style="color:Lime;"> {counter} </span>`,
+        LR_LUCKY_ROAD_RESULT_MESSAGE: `Потрачено "Монет удачи": <span style="color:Lime;"> {counter} </span>`,
         LR_LUCKY_ROAD_RESULT:
           `<br><div class="PopUp_text" style="text-align: left;"> Изумруды: <span style="color:Lime;"> {starMoney} </span> </div>
           <div class="PopUp_text" style="text-align: left;">Энергия: <span style="color:Lime;"> {stamina} </span></div>
@@ -309,7 +314,7 @@
           <div class="PopUp_text" style="text-align: left;">Монеты турнира стихий: <span style="color:Lime;"> {elementalTournamentCoin} </span></div>
           <div class="PopUp_text" style="text-align: left;">Печать природы: <span style="color:Lime;"> {natueresSeal} </span></div>
           <div class="PopUp_text" style="text-align: left;">Корень Андвари: <span style="color:Lime;"> {andvarisRoot} </span></div>`,
-        LR_LUCKY_ROAD_PROGRESS: `Потрачено монет удачи: <span style="color:Lime;"> {counter} </span> / {numberOfExchanges}`,
+        LR_LUCKY_ROAD_PROGRESS: `Потрачено "Монет удачи": <span style="color:Lime;"> {counter} </span> / {numberOfExchanges}`,
         LR_NOT_ENOUGH_COINS: '<span style="font-size: 30px;">Нет монет</span><br>',
         AC_IMPROVE_CASTLE: 'Улучшить замок',
         AC_IMPROVE_CASTLE_TITLE: 'Улучшить замок в территории завоеваний',
@@ -317,7 +322,12 @@
         AC_NEED_TO_SPEND_COINS: `<br> Для выполнения заданий осталось потратить: <span style="color:Lime;"> {remainingCoinsToSpend} </span>`,
         AC_TASKS_COMPLETED: `<br> <span style="color:Lime;"> Задания на трату монет выполнены </span>`,
         AC_INCORRECT_VALUE: 'Некорректное значение',
-        AC_CLAN_CASTLE_UPGRADE: 'Потрачено монет превосходства: <span style="color:Lime;"> {spendCoins} </span>',
+        AC_CLAN_CASTLE_UPGRADE: 'Потрачено "Монет превосходства": <span style="color:Lime;"> {spendCoins} </span>',
+        AC_WHEEL_OF_WISHES: 'Колесо желаний',
+        AC_WHEEL_OF_WISHES_TITLE: 'Крутить "Колесо желаний" в событии "Желание судьбы"',
+        LR_WHEEL_OF_WISHES_PROGRESS: `Потрачено "Монет желаний": <span style="color:Lime;"> {counter} </span> / {numberOfExchanges}`,
+        LR_WHEEL_OF_WISHES_RESULT_MESSAGE: `Потратили "Монеты желаний": <span style="color:Lime;"> {wishCoincounter} </span>
+        <br> Получили "Печати судьбы": <span style="color:Lime;"> {SealOfFateCounter} </span>`,
     };
 
     i18nLangData['ru'] = Object.assign(i18nLangData['ru'], i18nLangDataRu);
@@ -383,6 +393,66 @@
                     }
                 }
             }
+        }
+    });
+
+    //Определение активных ивентов
+    Events.on('startGame', () => {
+        const activeEvents = Object.values(lib.data.specialQuestEvent.type)
+        .filter(event => {
+            const questDates = event.requirement?.questEventDates;
+            if (!questDates) return false;
+            const endDate = new Date(`${questDates.endDate}T00:00:00Z`);
+            const endTimeMs = endDate.getTime() + (2 * 60 * 60 * 1000);
+            const startDate = new Date(questDates.startDate);
+            return endTimeMs >= Date.now() && startDate <= new Date();
+        })
+
+        console.log(activeEvents);
+        //Дорога удачи
+        if (activeEvents.find((e) => e.localeKey == "LIB_SPECIAL_QUEST_EVENT_NAME_199")){
+            othersPopupButtons.push({
+                get msg() {
+                    return I18N('LR_LUCKY_ROAD');
+                },
+                get title() {
+                    return I18N('LR_LUCKY_ROAD_TITLE');
+                },
+                result:async function () {
+                    await onClickLuckyRoad();
+                },
+                color: 'pink',
+            });
+        }
+        //Улучшить замок (территория завоеваний и территория титанов)
+        if (activeEvents.find((e) => e.localeKey == "LIB_SPECIAL_QUEST_EVENT_NAME_476" || e.localeKey == "LIB_SPECIAL_QUEST_EVENT_NAME_667")){
+            othersPopupButtons.push({
+                get msg() {
+                    return I18N('AC_IMPROVE_CASTLE');
+                },
+                get title() {
+                    return I18N('AC_IMPROVE_CASTLE_TITLE');
+                },
+                result:async function () {
+                    await onClickImproveCastle();
+                },
+                color: 'pink',
+            });
+        }
+        //Колесо желаний в событии "Желание судьбы"
+        if (activeEvents.find((e) => e.localeKey == "LIB_SPECIAL_QUEST_EVENT_NAME_668")){
+            othersPopupButtons.push({
+                get msg() {
+                    return I18N('AC_WHEEL_OF_WISHES');
+                },
+                get title() {
+                    return I18N('AC_WHEEL_OF_WISHES_TITLE');
+                },
+                result:async function () {
+                    await onClickWheelOfWishes();
+                },
+                color: 'pink',
+            });
         }
     });
 
@@ -458,7 +528,7 @@
 		color: 'pink',
 	});
 
-    othersPopupButtons.push({
+    /*othersPopupButtons.push({
         get msg() {
             return I18N('LR_LUCKY_ROAD');
         },
@@ -469,9 +539,9 @@
             await onClickLuckyRoad();
         },
         color: 'pink',
-    });
+    });*/
 
-    othersPopupButtons.push({
+    /*othersPopupButtons.push({
         get msg() {
             return I18N('AC_IMPROVE_CASTLE');
         },
@@ -482,7 +552,7 @@
             await onClickImproveCastle();
         },
         color: 'pink',
-    });
+    });*/
 
     async function onClickImproveCastle() {
         let clanCastle_getInfo = await Caller.send('clanCastle_getInfo');
@@ -557,16 +627,63 @@
         setProgress(I18N('AC_CLAN_CASTLE_UPGRADE', {spendCoins}), true, hideProgress);
     }
 
+    async function onClickWheelOfWishes() {
+        const wishCoinId = 1097;
+        const sealOfFateCoinId = 1098;
+        await coinsFarm(wishCoinId);
+        let inventoryGet = await Caller.send('inventoryGet');
+        console.log();
+        let wishCoin = inventoryGet.coin?.[wishCoinId] ?? 0;
+        const sealOfFateCoinStart = inventoryGet.coin?.[sealOfFateCoinId] ?? 0;
+        if (wishCoin == 0){
+            confShow(I18N('LR_NOT_ENOUGH_COINS'));
+            return;
+        }
+        let wishCoinCounter = wishCoin;
+        let numberOfExchanges = wishCoin;
+        let counter = 0;
+        while (wishCoin > 0) {
+            /*if (wishCoin >= 10){
+                counter += 10;
+                await Caller.send({name: 'wheelOfFortune_spin', args: {count: 10}});
+                setProgress(I18N('LR_LUCKY_ROAD_PLR_WHEEL_OF_WISHES_PROGRESSROGRESS', {counter: counter, numberOfExchanges: numberOfExchanges }), false, hideProgress);
+                wishCoin -= 10;
+                await new Promise((e) => setTimeout(e, 1000));
+            } else {
+                counter++;
+                await Caller.send({name: 'wheelOfFortune_spin', args: {count: 1}});
+                setProgress(I18N('LR_WHEEL_OF_WISHES_PROGRESS', {counter: counter, numberOfExchanges: numberOfExchanges }), false, hideProgress);
+                wishCoin--;
+                await new Promise((e) => setTimeout(e, 200));
+            }*/
+
+            counter++;
+            await Caller.send({name: 'wheelOfFortune_spin', args: {count: 1}});
+            setProgress(I18N('LR_WHEEL_OF_WISHES_PROGRESS', {counter: counter, numberOfExchanges: numberOfExchanges }), false, hideProgress);
+            wishCoin--;
+            await new Promise((e) => setTimeout(e, 200));
+        }
+        await new Promise((e) => setTimeout(e, 2000));
+        setProgress("", true);
+        inventoryGet = await Caller.send('inventoryGet');
+        const sealOfFateCoinFinish = inventoryGet.coin?.[sealOfFateCoinId] ?? 0;
+        await popup.confirm(I18N('LR_WHEEL_OF_WISHES_RESULT_MESSAGE', {wishCoincounter: wishCoinCounter, sealOfFateCounter:(sealOfFateCoinFinish - sealOfFateCoinStart)}));
+        if ((sealOfFateCoinFinish - sealOfFateCoinStart) > 0){
+            cheats.refreshGame();
+        }
+    }
+
     async function onClickLuckyRoad() {
+        const coinId = 59;
         let lineGacha_getInfo = await Caller.send('lineGacha_getInfo');
         if (lineGacha_getInfo == null){
             confShow(I18N('LR_NO_EVENT'));
             return;
         }
         let roadId = lineGacha_getInfo.gachaId;
-        await luckyCoinsFarm();
+        await coinsFarm(coinId);
         let inventoryGet = await Caller.send('inventoryGet');
-        let luckyCoin = inventoryGet.coin?.[59] ?? 0;
+        let luckyCoin = inventoryGet.coin?.[coinId] ?? 0;
         if (luckyCoin == 0){
             confShow(I18N('LR_NOT_ENOUGH_COINS'));
             return;
@@ -626,9 +743,9 @@
                     await new Promise((e) => setTimeout(e, 200));
                 }
             }
-            await luckyCoinsFarm();
+            await coinsFarm(coinId);
             inventoryGet = await Caller.send('inventoryGet');
-            luckyCoin = inventoryGet.coin?.[59] ?? 0;
+            luckyCoin = inventoryGet.coin?.[coinId] ?? 0;
             if (luckyCoin == 0) {
                 cycle = false;
                 break;
@@ -1322,9 +1439,9 @@
         return skils;
     }
 
-    async function luckyCoinsFarm() {
+    async function coinsFarm(coinId) {
         const questGetAll = await Caller.send('questGetAll');
-        const questsFarm = questGetAll.filter((e) => e.state == 2 && e.reward.coin?.[59]);
+        const questsFarm = questGetAll.filter((e) => e.state == 2 && e.reward.coin?.[coinId]);
         let calls = [];
         for (let quest of questsFarm) {
             const questId = +quest.id;
