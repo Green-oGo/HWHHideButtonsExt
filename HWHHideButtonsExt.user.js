@@ -3,13 +3,13 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.17
+// @version          2.18
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
 // @author           Green
 // @license          Copyright Green
-// @icon             https://i.ibb.co/xtmhK7zS/icon.png
+// @icon             https://i.ibb.co/9k7g3wqW/icon.png
 // @match            https://www.hero-wars.com/*
 // @match            https://apps-1701433570146040.apps.fbsbx.com/*
 // @run-at           document-start
@@ -565,20 +565,24 @@
         .filter(event => {
             const dates = event.requirement?.questEventDates;
             if (!dates) return false;
+
             const now = new Date();
-            return new Date(dates.startDate) <= now && new Date(dates.endDate) >= now;
+            const isActive = new Date(dates.startDate) <= now && new Date(dates.endDate) >= now;
+            const isValidLocale = event.localeKey === "LIB_SPECIAL_QUEST_EVENT_NAME_476" || event.localeKey === "LIB_SPECIAL_QUEST_EVENT_NAME_667";
+
+            return isActive && isValidLocale;
         })
         .flatMap(event => event.questChains);
+        console.log(activeEventQuestChains);
 
-        const coinsToSpendAllQuests = Object.values(lib.data.quest.special).filter((quest) => quest.translationMethod == "SpendSuperiorityCoins");
-
-        const eventChainIds = coinsToSpendAllQuests.flatMap((e) => Number(e.eventChainId))
-        const eventChainId = eventChainIds.find(item => activeEventQuestChains.includes(item));
-        const eventQuests = coinsToSpendAllQuests.filter((e) => e.eventChainId == eventChainId);
+        const eventQuests = Object.values(lib.data.quest.special)
+        .filter((quest) => (quest.translationMethod == "SpendSuperiorityCoins" || quest.translationMethod == "resourceSpentTypeId")
+                && activeEventQuestChains.includes(Number(quest.eventChainId)));
+        console.log(eventQuests);
 
         const maxCoinsToSpendQuest = eventQuests.reduce((max, item) => (item.farmCondition?.amount || 0) > (max.farmCondition?.amount || 0) ? item : max );
         const coinId = Number(maxCoinsToSpendQuest.farmCondition.eventFunc.args.id);
-        const maxCoinsToSpend = maxCoinsToSpendQuest.farmCondition.amount;
+        const maxCoinsToSpend = Number(maxCoinsToSpendQuest.farmCondition.amount);
         const coinsToSpendQuestId = Number(maxCoinsToSpendQuest.id);
 
         const inventoryGet = await Caller.send('inventoryGet');
