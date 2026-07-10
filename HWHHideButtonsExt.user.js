@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.19
+// @version          2.20
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -627,7 +627,7 @@
             }
             break;
         }
-        await Caller.send({name:'clanCastle_upgrade', args: {amount: spendCoins, optionId: 1}});
+        await Caller.send({name:'clanDomination_castleUpgrade', args: {amount: spendCoins, optionId: 1}});
         setProgress(I18N('AC_CLAN_CASTLE_UPGRADE', {spendCoins}), true, hideProgress);
     }
 
