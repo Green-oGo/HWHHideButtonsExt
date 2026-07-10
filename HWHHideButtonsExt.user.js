@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.18
+// @version          2.19
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -555,7 +555,7 @@
     });*/
 
     async function onClickImproveCastle() {
-        let clanCastle_getInfo = await Caller.send('clanCastle_getInfo');
+        let clanCastle_getInfo = await Caller.send('clanDomination_getCastleInfo');
         if (clanCastle_getInfo == null){
             confShow(I18N('LR_NO_EVENT'));
             return;
