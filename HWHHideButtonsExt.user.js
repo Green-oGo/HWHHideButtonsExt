@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.21
+// @version          2.22
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -50,7 +50,7 @@
           </span>`,
         HB_OTHERS_SETTINGS_TITLE: 'Button settings',
         HB_OTHERS_SETTINGS_MESSAGE: 'Button setting in the "Others" section',
-        HB_CHANGE_COLOR_EXTENSION_BUTTONS: 'Change the color of extension buttons',
+        HB_CHANGE_COLOR_EXTENSION_BUTTONS: '<span style="color: green;"> Change the color of extension buttons </span>',
         HB_COLOR_GREEN: 'Green',
         HB_COLOR_BROWN: 'Brown',
         HB_COLOR_BLUE: 'Blue',
@@ -162,9 +162,7 @@
           <div class="PopUp_text" style="text-align: left;">Artifact Seal Chests: <span style="color:Lime;"> {artifactSealChest} </span></div>
           <div class="PopUp_text" style="text-align: left;">Artifact Crown Chests: <span style="color:Lime;"> {artifactCrownChest} </span></div>
           <div class="PopUp_text" style="text-align: left;">Essence Of The Elements: <span style="color:Lime;"> {essenceOfTheElements} </span></div>
-          <div class="PopUp_text" style="text-align: left;">Elemental Tournament Coins: <span style="color:Lime;"> {elementalTournamentCoin} </span></div>
-          <div class="PopUp_text" style="text-align: left;">Nature's Seal: <span style="color:Lime;"> {natueresSeal} </span></div>
-          <div class="PopUp_text" style="text-align: left;">Andvari's Root: <span style="color:Lime;"> {andvarisRoot} </span></div>`,
+          <div class="PopUp_text" style="text-align: left;">Elemental Tournament Coins: <span style="color:Lime;"> {elementalTournamentCoin} </span></div>`,
         LR_LUCKY_ROAD_PROGRESS: `"Lucky coins" spent: <span style="color:Lime;"> {counter} </span> / {numberOfExchanges}`,
         LR_NOT_ENOUGH_COINS: '<span style="font-size: 30px;">No money</span><br> <span style="color: LimeGreen; font-size: 30px;">No money, no honey </span>',
         AC_IMPROVE_CASTLE: 'Upgrade Castle',
@@ -179,6 +177,19 @@
         LR_WHEEL_OF_WISHES_PROGRESS: `"Wish Coin" spent: <span style="color:Lime;"> {counter} </span> / {numberOfExchanges}`,
         LR_WHEEL_OF_WISHES_RESULT_MESSAGE: `"Wish Coin" spent: <span style="color:Lime;"> {wishCoincounter} </span>
         <br> Received the "Seal of Fate": <span style="color:Lime;"> {SealOfFateCounter} </span>`,
+        TR_TITAN_RESOURCES: 'Titan Resources',
+        TR_TITAN_RESOURCES_TITLE: 'View how many resources are needed to upgrade titans',
+        TR_HAVE_NO_TITANS: 'You have no Titans',
+        TR_SELECT_TITANS: 'Select the titans',
+        TR_ALL_TITANS: 'Resources for all selected titans <br> <span style="color:LightSeaGreen;">needed</span> / owned',
+        TR_ALL_TITANS_NEED_TITAN_POTIONS: `Titan potions: <span style="color: LightSeaGreen;">{needTitanPotion}</span> / <span style="color:{color};">{haveTitanPotion}</span>`,
+        TR_ALL_TITANS_NEED_ARTIFACT_ESSENCE: `<br> Artifact essence: <span style="color:LightSeaGreen;">{needArtifactEssence}</span> / <span style="color:{color};">{haveArtifactEssence}</span>`,
+        TR_ALL_TITANS_NEED_GOLD: `<br> Gold: <span style="color:LightSeaGreen;"> {needGold}</span> / <span style="color:{color};"> {haveGold} </span>`,
+        TR_TITAN_LEVEL: `Titan level <span style="color:green;"> {titanLevel} </span>`,
+        TR_NEED_TITAN_POTIONS: `. Titan potions needed: <span style="color:LightSeaGreen;">{needTitanPotion}</span>`,
+        TR_ARTIFACT_LEVEL: ` Artifact {artifactNumber} - level <span style="color:green;"> {artifactLevel} </span>`,
+        TR_NEED_ARTIFACT_ESSENCE: `. Essence needed: <span style="color:LightSeaGreen;">{needArtifactEssence}</span>`,
+        TR_NEED_GOLD: `. Gold needed: <span style="color:LightSeaGreen;"> {needGold}</span>`,
     };
 
     i18nLangData['en'] = Object.assign(i18nLangData['en'], i18nLangDataEn);
@@ -199,7 +210,7 @@
           </span>`,
         HB_OTHERS_SETTINGS_TITLE: 'Настройки кнопок',
         HB_OTHERS_SETTINGS_MESSAGE: 'Настройки кнопок в разделе "Разное"',
-        HB_CHANGE_COLOR_EXTENSION_BUTTONS: 'Изменить цвет кнопок расширений',
+        HB_CHANGE_COLOR_EXTENSION_BUTTONS: '<span style="color: green;"> Изменить цвет кнопок расширений </span>',
         HB_COLOR_GREEN: 'Зеленый',
         HB_COLOR_BROWN: 'Коричневый',
         HB_COLOR_BLUE: 'Синий',
@@ -312,9 +323,7 @@
           <div class="PopUp_text" style="text-align: left;">Сундук артефактных печатей: <span style="color:Lime;"> {artifactSealChest} </span></div>
           <div class="PopUp_text" style="text-align: left;">Сундук артефактных корон: <span style="color:Lime;"> {artifactCrownChest} </span></div>
           <div class="PopUp_text" style="text-align: left;">Стихийная артефактная эссенция: <span style="color:Lime;"> {essenceOfTheElements} </span></div>
-          <div class="PopUp_text" style="text-align: left;">Монеты турнира стихий: <span style="color:Lime;"> {elementalTournamentCoin} </span></div>
-          <div class="PopUp_text" style="text-align: left;">Печать природы: <span style="color:Lime;"> {natueresSeal} </span></div>
-          <div class="PopUp_text" style="text-align: left;">Корень Андвари: <span style="color:Lime;"> {andvarisRoot} </span></div>`,
+          <div class="PopUp_text" style="text-align: left;">Монеты турнира стихий: <span style="color:Lime;"> {elementalTournamentCoin} </span></div>`,
         LR_LUCKY_ROAD_PROGRESS: `Потрачено "Монет удачи": <span style="color:Lime;"> {counter} </span> / {numberOfExchanges}`,
         LR_NOT_ENOUGH_COINS: '<span style="font-size: 30px;">Нет монет</span><br>',
         AC_IMPROVE_CASTLE: 'Улучшить замок',
@@ -329,6 +338,21 @@
         LR_WHEEL_OF_WISHES_PROGRESS: `Потрачено "Монет желаний": <span style="color:Lime;"> {counter} </span> / {numberOfExchanges}`,
         LR_WHEEL_OF_WISHES_RESULT_MESSAGE: `Потратили "Монеты желаний": <span style="color:Lime;"> {wishCoincounter} </span>
         <br> Получили "Печати судьбы": <span style="color:Lime;"> {SealOfFateCounter} </span>`,
+        TR_TITAN_RESOURCES: 'Ресурсы титанов',
+        TR_TITAN_RESOURCES_TITLE: 'Посмотреть, сколько необходимо ресурсов для улучшения титанов',
+        TR_HAVE_NO_TITANS: 'У вас нет титанов',
+        TR_SELECT_TITANS: 'Выберите титанов',
+        TR_ALL_TITANS: 'Ресурсы всем выбранным титанам <br> <span style="color:LightSeaGreen;">необходимо </span> / имеем',
+        TR_ALL_TITANS_NEED_TITAN_POTIONS: `Зелья титанов: <span style="color: LightSeaGreen;">{needTitanPotion}</span> / <span style="color:{color};">{haveTitanPotion}</span>`,
+        TR_ALL_TITANS_NEED_ARTIFACT_ESSENCE: `<br> Артефактной эссенции: <span style="color:LightSeaGreen;">{needArtifactEssence}</span>  / <span style="color:{color};">{haveArtifactEssence}</span>`,
+        TR_ALL_TITANS_NEED_GOLD: `<br> Золота: <span style="color:LightSeaGreen;"> {needGold}</span> / <span style="color:{color};"> {haveGold} </span>`,
+        TR_TITAN_LEVEL: `Титан <span style="color:green;"> {titanLevel} </span> уровня`,
+        TR_NEED_TITAN_POTIONS: `. Необходимо зелья титанов: <span style="color:LightSeaGreen;">{needTitanPotion}</span>`,
+        TR_ARTIFACT_LEVEL: ` Артефакт {artifactNumber} - <span style="color:green;"> {artifactLevel} </span> уровня`,
+        TR_NEED_ARTIFACT_ESSENCE: `. Необходимо эссенции: <span style="color:LightSeaGreen;">{needArtifactEssence}</span>`,
+        TR_NEED_GOLD: `. Необходимо золота: <span style="color:LightSeaGreen;"> {needGold}</span>`,
+
+
     };
 
     i18nLangData['ru'] = Object.assign(i18nLangData['ru'], i18nLangDataRu);
@@ -457,7 +481,6 @@
         }
     });
 
-
     //Замена кнопки "Разное"
     buttons['doOthers'] = {
         isCombine: true,
@@ -499,7 +522,8 @@
             },
         ],
     };
-    //Добавить кнопку в Разное
+
+    //Добавить кнопки в Разное
     othersPopupButtons.unshift({
         get msg() {
             if (compareVersions(scriptInfo.version, '2.400') >= 0) {
@@ -529,18 +553,18 @@
 		color: 'pink',
 	});
 
-    /*othersPopupButtons.push({
+    othersPopupButtons.push({
         get msg() {
-            return I18N('LR_LUCKY_ROAD');
+            return I18N('TR_TITAN_RESOURCES');
         },
         get title() {
-            return I18N('LR_LUCKY_ROAD_TITLE');
+            return I18N('TR_TITAN_RESOURCES_TITLE');
         },
         result:async function () {
-            await onClickLuckyRoad();
+            await onClickTitanResources();
         },
         color: 'pink',
-    });*/
+    });
 
     /*othersPopupButtons.push({
         get msg() {
@@ -554,6 +578,101 @@
         },
         color: 'pink',
     });*/
+
+    async function onClickTitanResources() {
+        const titans = await selectTitanss();
+        if (!titans){
+            returnToOtherButtonMenu();
+            return;
+        }
+        let needTitanPotion = 0;
+        let needArtifactEssence = 0;
+        let needGold = 0;
+        const maxXp = 1009660;
+        const maxEss = 686050;
+        const maxGold = 172997500;
+        let message = '';
+
+        const inventoryGet = await Caller.send('inventoryGet');
+        const userGetInfo = await Caller.send('userGetInfo');
+
+        const haveTitanPotion = inventoryGet.consumable?.[20] ?? 0;;
+        const haveArtifactEssence = inventoryGet.consumable?.[53] ?? 0;
+        const haveGold = userGetInfo?.gold ?? 0;
+
+        const titanLib = lib.getData('titan');
+        const artTitanLib = lib.getData('titanArtifact');
+        for (let titan of titans) {
+            let color = titan.id >= 4050 ? 'Fuchsia'
+            : titan.id >= 4040 ? 'Khaki'
+            : titan.id >= 4030 ? 'DimGray'
+            : titan.id >= 4020 ? 'Green'
+            : titan.id >= 4010 ? 'red'
+            : titan.id >= 4000 ? 'DodgerBlue'
+            : '#FFFFFF';
+
+            message += `<br><div class="PopUp_text" style="color: ${color}; text-align: center; font-size: 25px;">${cheats.translate(`LIB_HERO_NAME_${titan.id}`)}</div>`;
+
+            if (titan.xp >= maxXp) {
+                message += `<div class="PopUp_text" style="text-align: left;">${I18N('TR_TITAN_LEVEL', {titanLevel: titan.level})}</div>`;
+            } else {
+                const diff = maxXp - titan.xp;
+                needTitanPotion += diff;
+                message += `<div class="PopUp_text" style="text-align: left;">${I18N('TR_TITAN_LEVEL', {titanLevel: titan.level}) + I18N('TR_NEED_TITAN_POTIONS', {needTitanPotion: diff.toLocaleString()})}</div>`;
+            }
+
+            for (let slotId in titan.artifacts) {
+                const titanInfo = titanLib[titan.id];
+                const art = titan.artifacts[slotId];
+                const level = art.level;
+                const artifactId = titanInfo.artifacts[slotId];
+                const artInfo = artTitanLib.id[artifactId];
+
+                let text = I18N('TR_ARTIFACT_LEVEL', {artifactNumber: (Number(slotId) + 1), artifactLevel: art.star > 0 ? level : 0});
+                if (level >= 130) {
+                    message += `<div class="PopUp_text" style="text-align: left;">${text}</div>`;
+                    continue;
+                }
+
+                if (artTitanLib.type[artInfo.type].levels[level].cost.consumable){
+                    let artifactsEss = 0;
+                    for( let lvl = level+1; lvl <= 130; lvl++){
+                        artifactsEss += artTitanLib.type[artInfo.type].levels[lvl].cost.consumable[53];
+                    }
+                    needArtifactEssence += artifactsEss;
+                    text += I18N('TR_NEED_ARTIFACT_ESSENCE', {needArtifactEssence: artifactsEss.toLocaleString()});
+                }
+                if (artTitanLib.type[artInfo.type].levels[level].cost.gold){
+                    let artifactsGold = 0;
+                    for( let lvl = level+1; lvl <= 130; lvl++){
+                        artifactsGold += artTitanLib.type[artInfo.type].levels[lvl].cost.gold;
+                    }
+                    needGold += artifactsGold;
+                    text += I18N('TR_NEED_GOLD', {needGold: artifactsGold.toLocaleString()});
+                }
+                message += `<div class="PopUp_text" style="text-align: left;">${text}</div>`;
+            }
+            message += `<br>`;
+        }
+        let message_2 = `<br><div class="PopUp_text" style=" text-align: left;">
+        ${I18N('TR_ALL_TITANS_NEED_TITAN_POTIONS', {needTitanPotion: needTitanPotion.toLocaleString(), haveTitanPotion: haveTitanPotion.toLocaleString(), color: needTitanPotion > haveTitanPotion ? 'red' : 'green'}) +
+            I18N('TR_ALL_TITANS_NEED_ARTIFACT_ESSENCE', {needArtifactEssence: needArtifactEssence.toLocaleString(), haveArtifactEssence: haveArtifactEssence.toLocaleString(), color: needArtifactEssence > haveArtifactEssence ? 'red' : 'green'}) +
+            I18N('TR_ALL_TITANS_NEED_GOLD', {needGold: needGold.toLocaleString(), haveGold: haveGold.toLocaleString(), color: needGold > haveGold ? 'red' : 'green'})}
+        </div>`;
+
+        await popup.customPopup(async (complete) => {
+            popup.custom.insertAdjacentHTML(
+                'beforeend',
+                (message_2 + message)
+            );
+            popup.setMsgText(I18N('TR_ALL_TITANS'));
+            popup.addButton({ isClose: true }, () => {
+                complete(false);
+                popup.hide();
+            });
+            popup.show();
+        });
+    }
 
     async function onClickImproveCastle() {
         let clanCastle_getInfo = await Caller.send('clanDomination_getCastleInfo');
@@ -716,11 +835,6 @@
         //Стихийная артефактная эссенция
         let essenceOfTheElementsStart = inventoryGet.consumable?.[53] ?? 0;
 
-        //Печать природы
-        let natueresSealStart = inventoryGet.fragmentTitanArtifact?.[3007] ?? 0;
-        //Корень Андвари
-        let andvarisRootStart = inventoryGet.fragmentTitanArtifact?.[1021] ?? 0;
-
         let userGetInfo = await Caller.send('userGetInfo');
         let starMoneyStart = userGetInfo?.starMoney ?? 0;
         let goldStart = userGetInfo?.gold ?? 0;
@@ -778,11 +892,6 @@
         //Стихийная артефактная эссенция
         let essenceOfTheElementsEnd = inventoryGet.consumable?.[53] ?? 0;
 
-        //Печать природы
-        let natueresSealEnd = inventoryGet.fragmentTitanArtifact?.[3007] ?? 0;
-        //Корень Андвари
-        let andvarisRootEnd = inventoryGet.fragmentTitanArtifact?.[1021] ?? 0;
-
         userGetInfo = await Caller.send('userGetInfo');
         let starMoneyEnd = userGetInfo?.starMoney ?? 0;
         let goldEnd = userGetInfo?.gold ?? 0;
@@ -805,9 +914,7 @@
                     artifactSealChest: artifactSealChestEnd - artifactSealChestStart,
                     artifactCrownChest: artifactCrownChestEnd - artifactCrownChestStart,
                     essenceOfTheElements: essenceOfTheElementsEnd - essenceOfTheElementsStart,
-                    elementalTournamentCoin: elementalTournamentCoinEnd - elementalTournamentCoinStart,
-                    natueresSeal: natueresSealEnd - natueresSealStart,
-                    andvarisRoot: andvarisRootEnd - andvarisRootStart
+                    elementalTournamentCoin: elementalTournamentCoinEnd - elementalTournamentCoinStart
                 }));
             popup.setMsgText(I18N('LR_LUCKY_ROAD_RESULT_MESSAGE', {counter: luckyCoinCounter}));
             popup.addButton({ isClose: true }, () => {
@@ -863,6 +970,7 @@
             answer();
         }
     };
+
     async function onClickImprovingSkillss() {
         automaticSkillImprovement = getSaveVal('automaticSkillImprovement', false);
         let colorButton = 'green';
@@ -1042,9 +1150,11 @@
             return stopTheTimer;
         }
     }
+
     async function returnToOtherButtonMenu() {
         await makeListOfButtons();
     }
+
     async function returnToOtherSettingsMenu() {
         await onClickSettings();
     }
@@ -1076,7 +1186,7 @@
 
         //Смена цвета кнопок
         let othersPopupButtonsName = ['GET_ENERGY', 'ITEM_EXCHANGE','BUY_SOULS','BUY_FOR_GOLD','BUY_OUTLAND','CLAN_STAT','EPIC_BRAWL',
-                                      'ARTIFACTS_UPGRADE','SKINS_UPGRADE','SEASON_REWARD','SELL_HERO_SOULS','CHANGE_MAP','HERO_POWER'];
+                                      'ARTIFACTS_UPGRADE','SKINS_UPGRADE','SEASON_REWARD','SELL_HERO_SOULS','CHANGE_MAP','HERO_POWER', 'SEERGAME'];
         let color = '';
         if (colorMainButtons && !changeColorExtensionButtons) {
             color = colorMainButtons;
@@ -1208,7 +1318,6 @@
         location.reload();
     }
 
-
     async function showWarningWindow() {
         let checkboxDoNotShowAgain = [];
         checkboxDoNotShowAgain.push({
@@ -1274,24 +1383,17 @@
         let changeColorExtensionButtons = getSaveVal('changeColorExtensionButtons', false);
         let buttonColors = ['green', 'brown', 'blue', 'violet', 'yellow', 'orange', 'indigo', 'pink', 'red', 'graphite'];
         let colors = [];
-        let checked = false;
-        if(changeColorExtensionButtons) {
-            checked = true;
-        }
         colors.push({
             name: 'changeColorExtensionButtons',
             label: I18N('HB_CHANGE_COLOR_EXTENSION_BUTTONS'),
-            checked: checked,
+            checked: changeColorExtensionButtons,
         });
         for (let color of buttonColors) {
-            checked = false;
-            if(color == colorMainButtons) {
-                checked = true;
-            }
             colors.push({
                 name: color,
                 label: I18N('HB_COLOR_' + color.toUpperCase()),
-                checked: checked,
+                radio: 'colors',
+                checked: color == colorMainButtons ? true : false,
             });
         }
 
@@ -1311,10 +1413,7 @@
         const taskList = popup.getCheckBoxes();
         changeColorExtensionButtons = taskList[0].checked;
         colorMainButtons = false;
-        for (let color of taskList) {
-            if (color.name == 'changeColorExtensionButtons') {
-                continue;
-            }
+        for (let color of taskList.slice(1)) {
             if (color.checked == true) {
                 colorMainButtons = color.name;
                 break;
@@ -1334,6 +1433,9 @@
             return;
         }
         let selectedHeroIdsForImprovement = getSaveVal('selectedHeroIdsForImprovement', []);
+        if (!Array.isArray(selectedHeroIdsForImprovement)){
+            selectedHeroIdsForImprovement = [];
+        }
         let newListHeroIds = [];
         //Пересобираем список чекбоксов
         if (selectedHeroIdsForImprovement.length > 0){
@@ -1396,6 +1498,57 @@
         }
         setSaveVal('selectedHeroIdsForImprovement', selectedHeroIdsForImprovement);
         returnToImprovingSkillssMenu();
+    }
+
+    async function selectTitanss() {
+        let titans = Object.values(await Caller.send('titanGetAll'));
+        console.log(titans);
+        if (titans.length == 0) {
+            await popup.confirm(I18N('TR_HAVE_NO_TITANS'));
+            return false;
+        }
+
+        let selectedTitans = getSaveVal('TR_selectedTitans', []);
+        console.log(selectedTitans);
+        if (!Array.isArray(selectedTitans)){
+            selectedTitans = [];
+        }
+        let newListTitanIds = [];
+        for (let titan of titans) {
+            let color = titan.id >= 4050 ? 'Fuchsia'
+            : titan.id >= 4040 ? 'Khaki'
+            : titan.id >= 4030 ? 'DimGray'
+            : titan.id >= 4020 ? 'Green'
+            : titan.id >= 4010 ? 'red'
+            : titan.id >= 4000 ? 'DodgerBlue'
+            : '#FFFFFF';
+            newListTitanIds.push({
+                name: titan.id,
+                label: `<span style="color: ${color}; text-shadow: none;">${cheats.translate(`LIB_HERO_NAME_${titan.id}`)}</span>`,
+                checked: selectedTitans.includes(Number(titan.id)),
+            });
+        }
+        let answer = await popup.confirm(
+            I18N('TR_SELECT_TITANS'),
+            [
+                { msg: I18N('HB_APPLY'), result: true, color: 'green' },
+                { msg: I18N('BTN_CANCEL'), result: false, isCancel: true, color: 'red' },
+            ],
+            newListTitanIds
+        );
+        if (!answer) {
+            return false;
+        }
+        const taskList = popup.getCheckBoxes();
+        let newSelectedTitans = [];
+        for (let titan of taskList) {
+            if (titan.checked == true) {
+                newSelectedTitans.push(Number(titan.name));
+            }
+        }
+        setSaveVal('TR_selectedTitans', newSelectedTitans);
+
+        return titans.filter(titan => newSelectedTitans.includes(titan.id));
     }
 
     async function getAllHeroesWithoutMaxSkills() {
