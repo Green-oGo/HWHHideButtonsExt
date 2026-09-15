@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.22
+// @version          2.23
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -186,10 +186,17 @@
         TR_ALL_TITANS_NEED_ARTIFACT_ESSENCE: `<br> Artifact essence: <span style="color:LightSeaGreen;">{needArtifactEssence}</span> / <span style="color:{color};">{haveArtifactEssence}</span>`,
         TR_ALL_TITANS_NEED_GOLD: `<br> Gold: <span style="color:LightSeaGreen;"> {needGold}</span> / <span style="color:{color};"> {haveGold} </span>`,
         TR_TITAN_LEVEL: `Titan level <span style="color:green;"> {titanLevel} </span>`,
-        TR_NEED_TITAN_POTIONS: `. Titan potions needed: <span style="color:LightSeaGreen;">{needTitanPotion}</span>`,
-        TR_ARTIFACT_LEVEL: ` Artifact {artifactNumber} - level <span style="color:green;"> {artifactLevel} </span>`,
+        TR_NEED_TITAN_POTIONS: ` Potions up to 130: <span style="color:LightSeaGreen;">{needTitanPotion}</span>`,
+        TR_ARTIFACT_LEVEL_0: `Weapon - lvl <span style="color:green;"> {artifactLevel} </span>`,
+        TR_ARTIFACT_LEVEL_1: `Crown - lvl <span style="color:green;"> {artifactLevel} </span>`,
+        TR_ARTIFACT_LEVEL_2: `Seal - lvl <span style="color:green;"> {artifactLevel} </span>`,
         TR_NEED_ARTIFACT_ESSENCE: `. Essence needed: <span style="color:LightSeaGreen;">{needArtifactEssence}</span>`,
-        TR_NEED_GOLD: `. Gold needed: <span style="color:LightSeaGreen;"> {needGold}</span>`,
+        TR_NEED_GOLD: ` Gold up to 130: <span style="color:LightSeaGreen;"> {needGold}</span>`,
+        TR_SKIN_LEVEL: ` - lvl <span style="color:green;"> {skinLevel} </span>`,
+        TR_BUY_SKIN: `<span style="color:red;"> - for real money - </span>`,
+        TR_NEED_SKIN_STONES: ` Stones up to 60: <span style="color:LightSeaGreen;"> {costUpgradingSkin}</span>`,
+        TR_ALL_TITANS_NEED_SKIN_STONES: `<br> Skin stones: <span style="color:LightSeaGreen;">{needSkinStones}</span>  / <span style="color:{color};">{haveSkinStones}</span>`,
+        TR_ALL_TITANS_NEED_SKIN_STONES_ALL_SKINS: `<br> With paid skins: <span style="color:LightSeaGreen;">{needSkinStonesAllSkins}</span>  / <span style="color:{color};">{haveSkinStones}</span>`,
     };
 
     i18nLangData['en'] = Object.assign(i18nLangData['en'], i18nLangDataEn);
@@ -346,13 +353,18 @@
         TR_ALL_TITANS_NEED_TITAN_POTIONS: `Зелья титанов: <span style="color: LightSeaGreen;">{needTitanPotion}</span> / <span style="color:{color};">{haveTitanPotion}</span>`,
         TR_ALL_TITANS_NEED_ARTIFACT_ESSENCE: `<br> Артефактной эссенции: <span style="color:LightSeaGreen;">{needArtifactEssence}</span>  / <span style="color:{color};">{haveArtifactEssence}</span>`,
         TR_ALL_TITANS_NEED_GOLD: `<br> Золота: <span style="color:LightSeaGreen;"> {needGold}</span> / <span style="color:{color};"> {haveGold} </span>`,
-        TR_TITAN_LEVEL: `Титан <span style="color:green;"> {titanLevel} </span> уровня`,
-        TR_NEED_TITAN_POTIONS: `. Необходимо зелья титанов: <span style="color:LightSeaGreen;">{needTitanPotion}</span>`,
-        TR_ARTIFACT_LEVEL: ` Артефакт {artifactNumber} - <span style="color:green;"> {artifactLevel} </span> уровня`,
-        TR_NEED_ARTIFACT_ESSENCE: `. Необходимо эссенции: <span style="color:LightSeaGreen;">{needArtifactEssence}</span>`,
-        TR_NEED_GOLD: `. Необходимо золота: <span style="color:LightSeaGreen;"> {needGold}</span>`,
-
-
+        TR_TITAN_LEVEL: `Титан <span style="color:green;"> {titanLevel} </span> ур.`,
+        TR_NEED_TITAN_POTIONS: ` Зелий до 130: <span style="color:LightSeaGreen;">{needTitanPotion}</span>`,
+        TR_ARTIFACT_LEVEL_0: `Оружие - <span style="color:green;"> {artifactLevel} </span> ур.`,
+        TR_ARTIFACT_LEVEL_1: `Корона - <span style="color:green;"> {artifactLevel} </span> ур.`,
+        TR_ARTIFACT_LEVEL_2: `Печать - <span style="color:green;"> {artifactLevel} </span> ур.`,
+        TR_NEED_ARTIFACT_ESSENCE: ` Эссенции до 130: <span style="color:LightSeaGreen;">{needArtifactEssence}</span>`,
+        TR_NEED_GOLD: ` Золота до 130: <span style="color:LightSeaGreen;"> {needGold}</span>`,
+        TR_SKIN_LEVEL: ` - <span style="color:green;"> {skinLevel} </span> ур.`,
+        TR_BUY_SKIN: `<span style="color:red;"> - за бабосики - </span>`,
+        TR_NEED_SKIN_STONES: ` Камней до 60: <span style="color:LightSeaGreen;"> {costUpgradingSkin}</span>`,
+        TR_ALL_TITANS_NEED_SKIN_STONES: `<br> Камней облика: <span style="color:LightSeaGreen;">{needSkinStones}</span>  / <span style="color:{color};">{haveSkinStones}</span>`,
+        TR_ALL_TITANS_NEED_SKIN_STONES_ALL_SKINS: `<br> С платными обликами: <span style="color:LightSeaGreen;">{needSkinStonesAllSkins}</span>  / <span style="color:{color};">{haveSkinStones}</span>`,
     };
 
     i18nLangData['ru'] = Object.assign(i18nLangData['ru'], i18nLangDataRu);
@@ -566,19 +578,6 @@
         color: 'pink',
     });
 
-    /*othersPopupButtons.push({
-        get msg() {
-            return I18N('AC_IMPROVE_CASTLE');
-        },
-        get title() {
-            return I18N('AC_IMPROVE_CASTLE_TITLE');
-        },
-        result:async function () {
-            await onClickImproveCastle();
-        },
-        color: 'pink',
-    });*/
-
     async function onClickTitanResources() {
         const titans = await selectTitanss();
         if (!titans){
@@ -588,6 +587,9 @@
         let needTitanPotion = 0;
         let needArtifactEssence = 0;
         let needGold = 0;
+        let needSkinStones = 0;
+        let needSkinStonesBuySkins = 0;
+
         const maxXp = 1009660;
         const maxEss = 686050;
         const maxGold = 172997500;
@@ -599,9 +601,11 @@
         const haveTitanPotion = inventoryGet.consumable?.[20] ?? 0;;
         const haveArtifactEssence = inventoryGet.consumable?.[53] ?? 0;
         const haveGold = userGetInfo?.gold ?? 0;
+        const haveSkinStones = inventoryGet.coin?.[24] ?? 0;
 
         const titanLib = lib.getData('titan');
         const artTitanLib = lib.getData('titanArtifact');
+        const skinTitanLib = Object.values(lib.data.skin).filter(e => e.heroId >= 4000 && e.heroId < 5000);
         for (let titan of titans) {
             let color = titan.id >= 4050 ? 'Fuchsia'
             : titan.id >= 4040 ? 'Khaki'
@@ -628,7 +632,7 @@
                 const artifactId = titanInfo.artifacts[slotId];
                 const artInfo = artTitanLib.id[artifactId];
 
-                let text = I18N('TR_ARTIFACT_LEVEL', {artifactNumber: (Number(slotId) + 1), artifactLevel: art.star > 0 ? level : 0});
+                let text = I18N(`TR_ARTIFACT_LEVEL_${slotId}`, {artifactNumber: (Number(slotId) + 1), artifactLevel: art.star > 0 ? level : 0});
                 if (level >= 130) {
                     message += `<div class="PopUp_text" style="text-align: left;">${text}</div>`;
                     continue;
@@ -652,14 +656,30 @@
                 }
                 message += `<div class="PopUp_text" style="text-align: left;">${text}</div>`;
             }
+            const skins = skinTitanLib.filter(e => e.heroId == titan.id );
+            for (let skin of skins) {
+                const skinLevel = titan.skins?.[skin.id] ?? 0;
+                const isSkinAvailable = skin.lockedUntil?.full ? isAvailable(skin.lockedUntil.full) : true;
+                let costUpgradingSkin = 0;
+                for( let lvl = skinLevel+1; lvl <= 60; lvl++){
+                    costUpgradingSkin += skin.statData.levels[lvl].cost.coin[24];
+                }
+                isSkinAvailable ? needSkinStones += costUpgradingSkin : needSkinStonesBuySkins += costUpgradingSkin;
+
+                message += `<div class="PopUp_text" style="text-align: left;">${cheats.translate(skin.localeKey) +
+                    ((isSkinAvailable || skinLevel > 0) ? I18N('TR_SKIN_LEVEL', {skinLevel: skinLevel}) : I18N('TR_BUY_SKIN')) +
+                    (costUpgradingSkin > 0 ? I18N('TR_NEED_SKIN_STONES', { costUpgradingSkin: costUpgradingSkin.toLocaleString()}) : "")}</div>`;
+            }
             message += `<br>`;
         }
+        const needSkinStonesAllSkins = needSkinStonesBuySkins + needSkinStones;
         let message_2 = `<br><div class="PopUp_text" style=" text-align: left;">
         ${I18N('TR_ALL_TITANS_NEED_TITAN_POTIONS', {needTitanPotion: needTitanPotion.toLocaleString(), haveTitanPotion: haveTitanPotion.toLocaleString(), color: needTitanPotion > haveTitanPotion ? 'red' : 'green'}) +
             I18N('TR_ALL_TITANS_NEED_ARTIFACT_ESSENCE', {needArtifactEssence: needArtifactEssence.toLocaleString(), haveArtifactEssence: haveArtifactEssence.toLocaleString(), color: needArtifactEssence > haveArtifactEssence ? 'red' : 'green'}) +
-            I18N('TR_ALL_TITANS_NEED_GOLD', {needGold: needGold.toLocaleString(), haveGold: haveGold.toLocaleString(), color: needGold > haveGold ? 'red' : 'green'})}
-        </div>`;
-
+            I18N('TR_ALL_TITANS_NEED_GOLD', {needGold: needGold.toLocaleString(), haveGold: haveGold.toLocaleString(), color: needGold > haveGold ? 'red' : 'green'}) +
+            I18N('TR_ALL_TITANS_NEED_SKIN_STONES', {needSkinStones: needSkinStones.toLocaleString(), haveSkinStones: haveSkinStones.toLocaleString(), color: needSkinStones > haveSkinStones ? 'red' : 'green'}) +
+            I18N('TR_ALL_TITANS_NEED_SKIN_STONES_ALL_SKINS', {needSkinStonesAllSkins: needSkinStonesAllSkins.toLocaleString(), haveSkinStones: haveSkinStones.toLocaleString(), color: needSkinStonesAllSkins > haveSkinStones ? 'red' : 'green'})
+        }</div>`;
         await popup.customPopup(async (complete) => {
             popup.custom.insertAdjacentHTML(
                 'beforeend',
@@ -672,6 +692,17 @@
             });
             popup.show();
         });
+    }
+
+    function parseUtcDate(str) {
+        const [datePart, timePart] = str.split(' ');
+        const [year, month, day] = datePart.split('-').map(Number);
+        const [hours, minutes] = timePart.split(':').map(Number);
+        return new Date(Date.UTC(year, month - 1, day, hours, minutes));
+    }
+
+    function isAvailable(str) {
+        return Date.now() >= parseUtcDate(str).getTime();
     }
 
     async function onClickImproveCastle() {
@@ -1502,14 +1533,12 @@
 
     async function selectTitanss() {
         let titans = Object.values(await Caller.send('titanGetAll'));
-        console.log(titans);
         if (titans.length == 0) {
             await popup.confirm(I18N('TR_HAVE_NO_TITANS'));
             return false;
         }
 
         let selectedTitans = getSaveVal('TR_selectedTitans', []);
-        console.log(selectedTitans);
         if (!Array.isArray(selectedTitans)){
             selectedTitans = [];
         }
