@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.23
+// @version          2.24
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -181,22 +181,25 @@
         TR_TITAN_RESOURCES_TITLE: 'View how many resources are needed to upgrade titans',
         TR_HAVE_NO_TITANS: 'You have no Titans',
         TR_SELECT_TITANS: 'Select the titans',
-        TR_ALL_TITANS: 'Resources for all selected titans <br> <span style="color:LightSeaGreen;">needed</span> / owned',
-        TR_ALL_TITANS_NEED_TITAN_POTIONS: `Titan potions: <span style="color: LightSeaGreen;">{needTitanPotion}</span> / <span style="color:{color};">{haveTitanPotion}</span>`,
-        TR_ALL_TITANS_NEED_ARTIFACT_ESSENCE: `<br> Artifact essence: <span style="color:LightSeaGreen;">{needArtifactEssence}</span> / <span style="color:{color};">{haveArtifactEssence}</span>`,
-        TR_ALL_TITANS_NEED_GOLD: `<br> Gold: <span style="color:LightSeaGreen;"> {needGold}</span> / <span style="color:{color};"> {haveGold} </span>`,
+        TR_ALL_TITANS: `<span style="font-size: 27px;"> Titans selected: <span style="color:green;">{numberOfTitans}</span> <br> Resource: <span style="color:LightSeaGreen;"> needed </span> / <span style="color:green;"> owned </span> / difference </span>`,
+        TR_ALL_TITANS_NEED_TITAN_POTIONS: `Titan potions: <span style="color: LightSeaGreen;">{needTitanPotion}</span> / <span style="color:{color};">{haveTitanPotion}</span> / {difference}`,
+        TR_ALL_TITANS_NEED_ARTIFACT_ESSENCE: `<br> Artifact essence: <span style="color:LightSeaGreen;">{needArtifactEssence}</span>  / <span style="color:{color};">{haveArtifactEssence}</span> / {difference}`,
+        TR_ALL_TITANS_NEED_GOLD: `<br> Gold: <span style="color:LightSeaGreen;"> {needGold}</span> / <span style="color:{color};"> {haveGold} </span> / {difference}`,
+        TR_ALL_TITANS_NEED_SKIN_STONES: `<br> Skin stones (available skins): <span style="color:LightSeaGreen;">{needSkinStones}</span>  / <span style="color:{color};">{haveSkinStones}</span> / {difference}`,
+        TR_ALL_TITANS_NEED_SKIN_STONES_ALL_SKINS: `<br>Available + paid skins: <span style="color:LightSeaGreen;">{needSkinStonesAllSkins}</span>  / <span style="color:{color};">{haveSkinStones}</span> / {difference}`,
         TR_TITAN_LEVEL: `Titan level <span style="color:green;"> {titanLevel} </span>`,
         TR_NEED_TITAN_POTIONS: ` Potions up to 130: <span style="color:LightSeaGreen;">{needTitanPotion}</span>`,
         TR_ARTIFACT_LEVEL_0: `Weapon - lvl <span style="color:green;"> {artifactLevel} </span>`,
         TR_ARTIFACT_LEVEL_1: `Crown - lvl <span style="color:green;"> {artifactLevel} </span>`,
         TR_ARTIFACT_LEVEL_2: `Seal - lvl <span style="color:green;"> {artifactLevel} </span>`,
-        TR_NEED_ARTIFACT_ESSENCE: `. Essence needed: <span style="color:LightSeaGreen;">{needArtifactEssence}</span>`,
+        TR_NEED_ARTIFACT_ESSENCE: ` Essence up to 130: <span style="color:LightSeaGreen;">{needArtifactEssence}</span>`,
         TR_NEED_GOLD: ` Gold up to 130: <span style="color:LightSeaGreen;"> {needGold}</span>`,
         TR_SKIN_LEVEL: ` - lvl <span style="color:green;"> {skinLevel} </span>`,
-        TR_BUY_SKIN: `<span style="color:red;"> - for real money - </span>`,
+        TR_BUY_SKIN: `<span style="color:red;"> - paid skins - </span>`,
         TR_NEED_SKIN_STONES: ` Stones up to 60: <span style="color:LightSeaGreen;"> {costUpgradingSkin}</span>`,
-        TR_ALL_TITANS_NEED_SKIN_STONES: `<br> Skin stones: <span style="color:LightSeaGreen;">{needSkinStones}</span>  / <span style="color:{color};">{haveSkinStones}</span>`,
-        TR_ALL_TITANS_NEED_SKIN_STONES_ALL_SKINS: `<br> With paid skins: <span style="color:LightSeaGreen;">{needSkinStonesAllSkins}</span>  / <span style="color:{color};">{haveSkinStones}</span>`,
+        TR_SELECT_ALL_TITANS: `<span style="color:green;"> All owned titans </span>`,
+        TR_SELECT_ALL_TITANS_TITLE: `Show information for all owned titans`,
+
     };
 
     i18nLangData['en'] = Object.assign(i18nLangData['en'], i18nLangDataEn);
@@ -349,10 +352,12 @@
         TR_TITAN_RESOURCES_TITLE: 'Посмотреть, сколько необходимо ресурсов для улучшения титанов',
         TR_HAVE_NO_TITANS: 'У вас нет титанов',
         TR_SELECT_TITANS: 'Выберите титанов',
-        TR_ALL_TITANS: 'Ресурсы всем выбранным титанам <br> <span style="color:LightSeaGreen;">необходимо </span> / имеем',
-        TR_ALL_TITANS_NEED_TITAN_POTIONS: `Зелья титанов: <span style="color: LightSeaGreen;">{needTitanPotion}</span> / <span style="color:{color};">{haveTitanPotion}</span>`,
-        TR_ALL_TITANS_NEED_ARTIFACT_ESSENCE: `<br> Артефактной эссенции: <span style="color:LightSeaGreen;">{needArtifactEssence}</span>  / <span style="color:{color};">{haveArtifactEssence}</span>`,
-        TR_ALL_TITANS_NEED_GOLD: `<br> Золота: <span style="color:LightSeaGreen;"> {needGold}</span> / <span style="color:{color};"> {haveGold} </span>`,
+        TR_ALL_TITANS: `<span style="font-size: 27px;"> Выбрано титанов: <span style="color:green;">{numberOfTitans}</span> <br> Ресурс: <span style="color:LightSeaGreen;"> необходимо </span> / <span style="color:green;"> имеем </span> / разница </span>`,
+        TR_ALL_TITANS_NEED_TITAN_POTIONS: `Зелье титанов: <span style="color: LightSeaGreen;">{needTitanPotion}</span> / <span style="color:{color};">{haveTitanPotion}</span> / {difference}`,
+        TR_ALL_TITANS_NEED_ARTIFACT_ESSENCE: `<br> Артефактная эссенция: <span style="color:LightSeaGreen;">{needArtifactEssence}</span>  / <span style="color:{color};">{haveArtifactEssence}</span> / {difference}`,
+        TR_ALL_TITANS_NEED_GOLD: `<br> Золото: <span style="color:LightSeaGreen;"> {needGold}</span> / <span style="color:{color};"> {haveGold} </span> / {difference}`,
+        TR_ALL_TITANS_NEED_SKIN_STONES: `<br> Камни облика (доступные облики): <span style="color:LightSeaGreen;">{needSkinStones}</span>  / <span style="color:{color};">{haveSkinStones}</span> / {difference}`,
+        TR_ALL_TITANS_NEED_SKIN_STONES_ALL_SKINS: `<br>Доступные + платные облики: <span style="color:LightSeaGreen;">{needSkinStonesAllSkins}</span>  / <span style="color:{color};">{haveSkinStones}</span> / {difference}`,
         TR_TITAN_LEVEL: `Титан <span style="color:green;"> {titanLevel} </span> ур.`,
         TR_NEED_TITAN_POTIONS: ` Зелий до 130: <span style="color:LightSeaGreen;">{needTitanPotion}</span>`,
         TR_ARTIFACT_LEVEL_0: `Оружие - <span style="color:green;"> {artifactLevel} </span> ур.`,
@@ -363,8 +368,8 @@
         TR_SKIN_LEVEL: ` - <span style="color:green;"> {skinLevel} </span> ур.`,
         TR_BUY_SKIN: `<span style="color:red;"> - за бабосики - </span>`,
         TR_NEED_SKIN_STONES: ` Камней до 60: <span style="color:LightSeaGreen;"> {costUpgradingSkin}</span>`,
-        TR_ALL_TITANS_NEED_SKIN_STONES: `<br> Камней облика: <span style="color:LightSeaGreen;">{needSkinStones}</span>  / <span style="color:{color};">{haveSkinStones}</span>`,
-        TR_ALL_TITANS_NEED_SKIN_STONES_ALL_SKINS: `<br> С платными обликами: <span style="color:LightSeaGreen;">{needSkinStonesAllSkins}</span>  / <span style="color:{color};">{haveSkinStones}</span>`,
+        TR_SELECT_ALL_TITANS: `<span style="color:green;"> Все имеющиеся титаны </span>`,
+        TR_SELECT_ALL_TITANS_TITLE: `Показать информацию для всех имеющихся титанов`,
     };
 
     i18nLangData['ru'] = Object.assign(i18nLangData['ru'], i18nLangDataRu);
@@ -591,21 +596,33 @@
         let needSkinStonesBuySkins = 0;
 
         const maxXp = 1009660;
-        const maxEss = 686050;
-        const maxGold = 172997500;
         let message = '';
 
         const inventoryGet = await Caller.send('inventoryGet');
         const userGetInfo = await Caller.send('userGetInfo');
 
-        const haveTitanPotion = inventoryGet.consumable?.[20] ?? 0;;
-        const haveArtifactEssence = inventoryGet.consumable?.[53] ?? 0;
-        const haveGold = userGetInfo?.gold ?? 0;
-        const haveSkinStones = inventoryGet.coin?.[24] ?? 0;
+        let haveTitanPotion = inventoryGet.consumable?.[20] ?? 0;;
+        let haveArtifactEssence = inventoryGet.consumable?.[53] ?? 0;
+        let haveGold = userGetInfo?.gold ?? 0;
+        let haveSkinStones = inventoryGet.coin?.[24] ?? 0;
 
         const titanLib = lib.getData('titan');
         const artTitanLib = lib.getData('titanArtifact');
         const skinTitanLib = Object.values(lib.data.skin).filter(e => e.heroId >= 4000 && e.heroId < 5000);
+
+        let lang = '';
+        if (typeof NXFlashVars !== 'undefined') {
+            lang = NXFlashVars.interface_lang
+        }
+        if (!lang) {
+            lang = (navigator.language || navigator.userLanguage).substr(0, 2);
+        }
+        if (lang != 'ru'){
+            lang = 'en';
+        }
+
+        const formatter = new Intl.NumberFormat(lang, { notation: 'compact', maximumFractionDigits: 1 });
+        const formatNum = (val) => formatter.format(val);
         for (let titan of titans) {
             let color = titan.id >= 4050 ? 'Fuchsia'
             : titan.id >= 4040 ? 'Khaki'
@@ -615,14 +632,14 @@
             : titan.id >= 4000 ? 'DodgerBlue'
             : '#FFFFFF';
 
-            message += `<br><div class="PopUp_text" style="color: ${color}; text-align: center; font-size: 25px;">${cheats.translate(`LIB_HERO_NAME_${titan.id}`)}</div>`;
+            message += `<br><div class="PopUp_text" style="color: ${color}; text-align: center; font-size: 27px;">${cheats.translate(`LIB_HERO_NAME_${titan.id}`)}</div>`;
 
             if (titan.xp >= maxXp) {
                 message += `<div class="PopUp_text" style="text-align: left;">${I18N('TR_TITAN_LEVEL', {titanLevel: titan.level})}</div>`;
             } else {
                 const diff = maxXp - titan.xp;
                 needTitanPotion += diff;
-                message += `<div class="PopUp_text" style="text-align: left;">${I18N('TR_TITAN_LEVEL', {titanLevel: titan.level}) + I18N('TR_NEED_TITAN_POTIONS', {needTitanPotion: diff.toLocaleString()})}</div>`;
+                message += `<div class="PopUp_text" style="text-align: left;">${I18N('TR_TITAN_LEVEL', {titanLevel: titan.level}) + I18N('TR_NEED_TITAN_POTIONS', {needTitanPotion: formatNum(diff)})}</div>`;
             }
 
             for (let slotId in titan.artifacts) {
@@ -644,7 +661,7 @@
                         artifactsEss += artTitanLib.type[artInfo.type].levels[lvl].cost.consumable[53];
                     }
                     needArtifactEssence += artifactsEss;
-                    text += I18N('TR_NEED_ARTIFACT_ESSENCE', {needArtifactEssence: artifactsEss.toLocaleString()});
+                    text += I18N('TR_NEED_ARTIFACT_ESSENCE', {needArtifactEssence: formatNum(artifactsEss)});
                 }
                 if (artTitanLib.type[artInfo.type].levels[level].cost.gold){
                     let artifactsGold = 0;
@@ -652,7 +669,7 @@
                         artifactsGold += artTitanLib.type[artInfo.type].levels[lvl].cost.gold;
                     }
                     needGold += artifactsGold;
-                    text += I18N('TR_NEED_GOLD', {needGold: artifactsGold.toLocaleString()});
+                    text += I18N('TR_NEED_GOLD', {needGold: formatNum(artifactsGold)});
                 }
                 message += `<div class="PopUp_text" style="text-align: left;">${text}</div>`;
             }
@@ -668,41 +685,59 @@
 
                 message += `<div class="PopUp_text" style="text-align: left;">${cheats.translate(skin.localeKey) +
                     ((isSkinAvailable || skinLevel > 0) ? I18N('TR_SKIN_LEVEL', {skinLevel: skinLevel}) : I18N('TR_BUY_SKIN')) +
-                    (costUpgradingSkin > 0 ? I18N('TR_NEED_SKIN_STONES', { costUpgradingSkin: costUpgradingSkin.toLocaleString()}) : "")}</div>`;
+                    (costUpgradingSkin > 0 ? I18N('TR_NEED_SKIN_STONES', { costUpgradingSkin: formatNum(costUpgradingSkin)}) : "")}</div>`;
             }
             message += `<br>`;
         }
-        const needSkinStonesAllSkins = needSkinStonesBuySkins + needSkinStones;
+        let needSkinStonesAllSkins = needSkinStonesBuySkins + needSkinStones; //center
+        const tooMuchGold = lang == 'ru' ? 'много' : 'too much';
+
         let message_2 = `<br><div class="PopUp_text" style=" text-align: left;">
-        ${I18N('TR_ALL_TITANS_NEED_TITAN_POTIONS', {needTitanPotion: needTitanPotion.toLocaleString(), haveTitanPotion: haveTitanPotion.toLocaleString(), color: needTitanPotion > haveTitanPotion ? 'red' : 'green'}) +
-            I18N('TR_ALL_TITANS_NEED_ARTIFACT_ESSENCE', {needArtifactEssence: needArtifactEssence.toLocaleString(), haveArtifactEssence: haveArtifactEssence.toLocaleString(), color: needArtifactEssence > haveArtifactEssence ? 'red' : 'green'}) +
-            I18N('TR_ALL_TITANS_NEED_GOLD', {needGold: needGold.toLocaleString(), haveGold: haveGold.toLocaleString(), color: needGold > haveGold ? 'red' : 'green'}) +
-            I18N('TR_ALL_TITANS_NEED_SKIN_STONES', {needSkinStones: needSkinStones.toLocaleString(), haveSkinStones: haveSkinStones.toLocaleString(), color: needSkinStones > haveSkinStones ? 'red' : 'green'}) +
-            I18N('TR_ALL_TITANS_NEED_SKIN_STONES_ALL_SKINS', {needSkinStonesAllSkins: needSkinStonesAllSkins.toLocaleString(), haveSkinStones: haveSkinStones.toLocaleString(), color: needSkinStonesAllSkins > haveSkinStones ? 'red' : 'green'})
+        ${
+            I18N('TR_ALL_TITANS_NEED_TITAN_POTIONS', {
+                needTitanPotion: formatNum(needTitanPotion),
+                haveTitanPotion: formatNum(haveTitanPotion),
+                color: needTitanPotion > haveTitanPotion ? 'red' : 'green',
+                difference: formatNum(haveTitanPotion - needTitanPotion)
+            }) +
+            I18N('TR_ALL_TITANS_NEED_ARTIFACT_ESSENCE', {
+                needArtifactEssence: formatNum(needArtifactEssence),
+                haveArtifactEssence: formatNum(haveArtifactEssence),
+                color: needArtifactEssence > haveArtifactEssence ? 'red' : 'green',
+                difference: formatNum(haveArtifactEssence - needArtifactEssence)
+            }) +
+            I18N('TR_ALL_TITANS_NEED_GOLD', {
+                needGold: formatNum(needGold),
+                haveGold: (haveGold - needGold) >= 1_000_000_000 ? tooMuchGold : formatNum(haveGold),
+                color: needGold > haveGold ? 'red' : 'green',
+                difference: (haveGold - needGold) >= 1_000_000_000 ? tooMuchGold : formatNum(haveGold - needGold)
+            }) +
+            I18N('TR_ALL_TITANS_NEED_SKIN_STONES', {
+                needSkinStones: formatNum(needSkinStones),
+                haveSkinStones: formatNum(haveSkinStones),
+                color: needSkinStones > haveSkinStones ? 'red' : 'green',
+                difference: formatNum(haveSkinStones - needSkinStones)
+            }) +
+            I18N('TR_ALL_TITANS_NEED_SKIN_STONES_ALL_SKINS', {
+                needSkinStonesAllSkins: formatNum(needSkinStonesAllSkins),
+                haveSkinStones: formatNum(haveSkinStones),
+                color: haveSkinStones - needSkinStonesAllSkins < 0 ? 'red' : 'green',
+                difference: formatNum(haveSkinStones - needSkinStonesAllSkins)
+            })
         }</div>`;
+
         await popup.customPopup(async (complete) => {
             popup.custom.insertAdjacentHTML(
                 'beforeend',
                 (message_2 + message)
             );
-            popup.setMsgText(I18N('TR_ALL_TITANS'));
+            popup.setMsgText(I18N('TR_ALL_TITANS', {numberOfTitans: titans.length}));
             popup.addButton({ isClose: true }, () => {
                 complete(false);
                 popup.hide();
             });
             popup.show();
         });
-    }
-
-    function parseUtcDate(str) {
-        const [datePart, timePart] = str.split(' ');
-        const [year, month, day] = datePart.split('-').map(Number);
-        const [hours, minutes] = timePart.split(':').map(Number);
-        return new Date(Date.UTC(year, month - 1, day, hours, minutes));
-    }
-
-    function isAvailable(str) {
-        return Date.now() >= parseUtcDate(str).getTime();
     }
 
     async function onClickImproveCastle() {
@@ -1538,11 +1573,22 @@
             return false;
         }
 
+        let selectAllTitans = getSaveVal('TR_SelectAllTitans', false);
+        if(typeof selectAllTitans !== 'boolean'){
+            selectAllTitans = false;
+        }
+
         let selectedTitans = getSaveVal('TR_selectedTitans', []);
         if (!Array.isArray(selectedTitans)){
             selectedTitans = [];
         }
         let newListTitanIds = [];
+        newListTitanIds.push({
+            name: 'selectAllTitans',
+            label: I18N('TR_SELECT_ALL_TITANS'),
+            title: I18N('TR_SELECT_ALL_TITANS_TITLE'),
+            checked: selectAllTitans,
+        });
         for (let titan of titans) {
             let color = titan.id >= 4050 ? 'Fuchsia'
             : titan.id >= 4040 ? 'Khaki'
@@ -1569,15 +1615,34 @@
             return false;
         }
         const taskList = popup.getCheckBoxes();
+
+        selectAllTitans = taskList[0].checked;
+        if (selectAllTitans) {
+            setSaveVal('TR_SelectAllTitans', selectAllTitans);
+            return titans;
+        }
+
         let newSelectedTitans = [];
         for (let titan of taskList) {
             if (titan.checked == true) {
                 newSelectedTitans.push(Number(titan.name));
             }
         }
+        setSaveVal('TR_SelectAllTitans', selectAllTitans);
         setSaveVal('TR_selectedTitans', newSelectedTitans);
 
         return titans.filter(titan => newSelectedTitans.includes(titan.id));
+    }
+
+    function parseUtcDate(str) {
+        const [datePart, timePart] = str.split(' ');
+        const [year, month, day] = datePart.split('-').map(Number);
+        const [hours, minutes] = timePart.split(':').map(Number);
+        return new Date(Date.UTC(year, month - 1, day, hours, minutes));
+    }
+
+    function isAvailable(str) {
+        return Date.now() >= parseUtcDate(str).getTime();
     }
 
     async function getAllHeroesWithoutMaxSkills() {
