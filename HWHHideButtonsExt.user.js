@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.24
+// @version          2.25
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -19,17 +19,25 @@
 // ==/UserScript==
 
 (async function () {
-	if (!this.HWHClasses) {
-		console.log('%cObject for extension not found', 'color: red');
-		return;
-	}
+    /** Ждём загрузки Хелпера */
+    await waitForHelper().then((found) => {
+        if (!found) {
+            console.log('%cObject for extension not found', 'color: red');
+            return;
+        }
+    });
+    async function waitForHelper(timeoutMs = 60000, stepMs = 200) {
+        for (let waited = 0; waited < timeoutMs; waited += stepMs) {
+            if (typeof HWHClasses !== 'undefined') return true;
+            await new Promise((r) => setTimeout(r, stepMs));
+        }
+        return typeof HWHClasses !== 'undefined';
+    }
 
     console.log('%cStart Extension ' + GM_info.script.name + ', v' + GM_info.script.version + ' by ' + GM_info.script.author, 'color: red');
     const { addExtentionName } = HWHFuncs;
 
     addExtentionName(GM_info.script.name, GM_info.script.version, GM_info.script.author);
-
-
 
     const { buttons, othersPopupButtons, i18nLangData, extintionsList} = HWHData;
 
@@ -783,7 +791,8 @@
         const quest = allQuests.find((quest) => quest.id == coinsToSpendQuestId);
         const remainingCoinsToSpend = quest ? maxCoinsToSpend - quest.progress : 0;
 
-        const defaultSpendCoins = haveCoins >= remainingCoinsToSpend ? remainingCoinsToSpend : haveCoins;
+        const defaultSpendCoins = (remainingCoinsToSpend == 0 || haveCoins < remainingCoinsToSpend) ? haveCoins : remainingCoinsToSpend;
+
         const needToSpend = remainingCoinsToSpend > 0 ? I18N('AC_NEED_TO_SPEND_COINS', { remainingCoinsToSpend }) : I18N('AC_TASKS_COMPLETED');
         let message = I18N('AC_HAVE_COINS', {haveCoins}) + needToSpend;
         let spendCoins = 0;
