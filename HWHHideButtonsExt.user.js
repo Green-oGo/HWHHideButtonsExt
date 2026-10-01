@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.25
+// @version          2.26
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -761,7 +761,9 @@
             if (!dates) return false;
 
             const now = new Date();
-            const isActive = new Date(dates.startDate) <= now && new Date(dates.endDate) >= now;
+            const start = new Date(dates.startDate + 'T02:00:00Z');
+            const end = new Date(dates.endDate + 'T02:00:00Z');
+            const isActive = start <= now && now <= end;
             const isValidLocale = event.localeKey === "LIB_SPECIAL_QUEST_EVENT_NAME_476" || event.localeKey === "LIB_SPECIAL_QUEST_EVENT_NAME_667";
 
             return isActive && isValidLocale;
@@ -789,7 +791,7 @@
 
         const allQuests = await Caller.send('questGetAll');
         const quest = allQuests.find((quest) => quest.id == coinsToSpendQuestId);
-        const remainingCoinsToSpend = quest ? maxCoinsToSpend - quest.progress : 0;
+        const remainingCoinsToSpend = (quest?.progress < maxCoinsToSpend) ? maxCoinsToSpend - quest.progress : 0;
 
         const defaultSpendCoins = (remainingCoinsToSpend == 0 || haveCoins < remainingCoinsToSpend) ? haveCoins : remainingCoinsToSpend;
 
