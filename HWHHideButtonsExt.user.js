@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.26
+// @version          2.27
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -207,7 +207,39 @@
         TR_NEED_SKIN_STONES: ` Stones up to 60: <span style="color:LightSeaGreen;"> {costUpgradingSkin}</span>`,
         TR_SELECT_ALL_TITANS: `<span style="color:green;"> All owned titans </span>`,
         TR_SELECT_ALL_TITANS_TITLE: `Show information for all owned titans`,
-
+        PU_PET_UPGRADE: `Upgrade pet`,
+        PU_PET_UPGRADE_TITLE: `Equip and upgrade stones, and level up the selected pet`,
+        PU_SHOULD_UPGRADE_LEVEL: `Level up`,
+        PU_SHOULD_UPGRADE_LEVEL_TITLE: `Allow the script to automatically level up the pet using potions`,
+        PU_SHOULD_PROMOTE_RANK: `Promote rank`,
+        PU_SHOULD_PROMOTE_RANK_TITLE: `Allow the script to evolve the pet and promote its rank when all slots are filled`,
+        PU_SHOULD_EQUIP_GEARS: `Equip stones`,
+        PU_SHOULD_EQUIP_GEARS_TITLE: `Allow the script to automatically insert available equipment stones into empty slots`,
+        PU_SHOULD_BUY_GEARS: `Buy stones`,
+        PU_SHOULD_BUY_GEARS_TITLE: `Allow the script to buy missing equipment stones for Chaos Particles`,
+        PU_NO_PETS_AVAILABLE: `All your pets have already reached max level, rank, and stone upgrade limit, or there are no pets on the account`,
+        PU_UPGRADE_START: `Pet upgrade: <span style="color:Lime; font-weight:bold;"> {petName} </span><br>`,
+        PU_LEVEL_UPGRADE: `<span style="color:DeepSkyBlue; font-weight:bold;"> Level up </span><br>`,
+        PU_UNKNOWN_ERROR: `<span style="color:red; font-weight:bold;">An unexpected error occurred! Script stopped </span><br>`,
+        PU_GEAR_UPGRADE: `<span style="color:DeepSkyBlue; font-weight:bold;"> Stone upgrade </span> <br>`,
+        PU_LEVEL_UPGRADE_SUCCESS_TO: `Pet level increased to <span style="color:Lime; font-weight:bold;"> {level} </span><br>`,
+        PU_LEVEL_UPGRADE_MAX: `<span style="color:Lime; font-weight:bold;"> Pet is at max level </span><br>`,
+        PU_LEVEL_UPGRADE_FAIL: `<span style="color:red;">Level not increased.</span> Not enough pet potions <br>`,
+        PU_LEVEL_UPGRADE_SKIPPED: `<span style="color:Yellow; font-weight:bold;"> Pet level up is disabled in settings </span><br>`,
+        PU_GEAR_ALREADY_EQUIPPED: `Stone in slot #<span style="color:Lime;">{slotNumber}</span> is already equipped`,
+        PU_GEAR_OPERATIONS_FORBIDDEN: `Stone in slot #<span style="color:Lime;">{slotNumber}</span> <span style="color:red;"> is missing </span> <span style="color:Yellow; font-weight:bold;"> Equipping and buying are disabled in settings</span> <br>`,
+        PU_GEAR_BUY_FORBIDDEN: `Stone for slot #<span style="color:Lime;">{slotNumber}</span> <span style="color:red;"> is not available </span> <span style="color:Yellow; font-weight:bold;">. Buying is disabled in settings</span> <br>`,
+        PU_GEAR_INSERT_SUCCESS: `<span style="color:Lime;"> Inserted </span> stone into slot #<span style="color:Lime;">{slotNumber}</span>`,
+        PU_GEAR_BUY_AND_INSERT: `<span style="color:Fuchsia;"> Bought </span> stone and inserted into slot #<span style="color:Lime;">{slotNumber}</span>`,
+        PU_GEAR_LACK_OF_CHAOS: `<span style="color:red;"> Skipping </span> slot #<span style="color:Lime;">{slotNumber}</span>: No stone and not enough Chaos Particles to buy <br>`,
+        PU_GEAR_LEVEL_LOCKED: `Slot #<span style="color:Lime;">{slotNumber}</span> <span style="color:red;"> is locked</span>: Requires pet level {petLevel}<br>`,
+        PU_GEAR_ALREADY_MAX_LEVEL: ` and upgraded to max level: <span style="color:Gold; font-weight:bold;"> {maxGearLevel} </span><br>`,
+        PU_GEAR_UPGRADE_SUCCESS: `. Upgraded to <span style="color:Lime;"> {currentGearLevel} </span> / {maxGearLevel} lvl.<br>`,
+        PU_GEAR_LACK_OF_RESOURCES: `. <span style="color:red;">Not enough gold or Chaos Particles to upgrade</span><br>`,
+        PU_GEAR_PROMOTE_SUCCESS: `Pet promoted to <span style="color: {color}; font-weight:bold;">{colorName}</span><br>`,
+        PU_GEAR_PROMOTE_SKIPPED: `<span style="color:Yellow; font-weight:bold;"> All slots are full, but rank promotion is disabled in settings </span><br>`,
+        PU_PET_COLOR: `Current pet rank <span style="color: {color}; font-weight:bold;">{colorName}</span><br>`,
+        PU_UPGRADE_FINISH: `<span style="color:Lime; font-weight:bold;"> Pet upgrade complete </span>`,
     };
 
     i18nLangData['en'] = Object.assign(i18nLangData['en'], i18nLangDataEn);
@@ -378,6 +410,40 @@
         TR_NEED_SKIN_STONES: ` Камней до 60: <span style="color:LightSeaGreen;"> {costUpgradingSkin}</span>`,
         TR_SELECT_ALL_TITANS: `<span style="color:green;"> Все имеющиеся титаны </span>`,
         TR_SELECT_ALL_TITANS_TITLE: `Показать информацию для всех имеющихся титанов`,
+
+        PU_PET_UPGRADE: `Улучшить питомца`,
+        PU_PET_UPGRADE_TITLE: `Одеть и улучшить камни, повысить уровень у выбранного питомца`,
+        PU_SHOULD_UPGRADE_LEVEL: `Повысить уровень`,
+        PU_SHOULD_UPGRADE_LEVEL_TITLE: `Разрешить скрипту автоматически повышать уровень питомца за зелья`,
+        PU_SHOULD_PROMOTE_RANK: `Повысить ранг`,
+        PU_SHOULD_PROMOTE_RANK_TITLE: `Разрешить скрипту эволюционировать питомца и повышать его цвет, когда все слоты заполнены`,
+        PU_SHOULD_EQUIP_GEARS: `Одевать камни`,
+        PU_SHOULD_EQUIP_GEARS_TITLE: `Разрешить скрипту автоматически вставлять имеющиеся камни снаряжения в пустые слоты`,
+        PU_SHOULD_BUY_GEARS: `Покупать камни`,
+        PU_SHOULD_BUY_GEARS_TITLE: `Разрешить скрипту докупать недостающие камни экипировки за частицы хаоса`,
+        PU_NO_PETS_AVAILABLE: `Все ваши питомцы уже достигли максимального уровня, ранга и лимита прокачки камней, или на аккаунте отсутствуют питомцы`,
+        PU_UPGRADE_START: `Улучшение питомца: <span style="color:Lime; font-weight:bold;"> {petName} </span><br>`,
+        PU_LEVEL_UPGRADE: `<span style="color:DeepSkyBlue; font-weight:bold;"> Повышение уровня </span><br>`,
+        PU_UNKNOWN_ERROR: `<span style="color:red; font-weight:bold;">Произошла непредвиденная ошибка! Скрипт остановлен </span><br>`,
+        PU_GEAR_UPGRADE: `<span style="color:DeepSkyBlue; font-weight:bold;"> Улучшение камней </span> <br>`,
+        PU_LEVEL_UPGRADE_SUCCESS_TO: `Уровень питомца повышен до <span style="color:Lime; font-weight:bold;"> {level} </span><br>`,
+        PU_LEVEL_UPGRADE_MAX: `<span style="color:Lime; font-weight:bold;"> Питомец максимального уровня </span><br>`,
+        PU_LEVEL_UPGRADE_FAIL: `<span style="color:red;">Уровень не повысили.</span> Не хватает зелий питомца <br>`,
+        PU_LEVEL_UPGRADE_SKIPPED: `<span style="color:Yellow; font-weight:bold;"> Повышение уровня питомца отключено в настройках </span><br>`,
+        PU_GEAR_ALREADY_EQUIPPED: `Камень в слот №<span style="color:Lime;">{slotNumber}</span> уже установлен`,
+        PU_GEAR_OPERATIONS_FORBIDDEN: `Камень в слоте №<span style="color:Lime;">{slotNumber}</span> <span style="color:red;"> отсутствует </span> <span style="color:Yellow; font-weight:bold;"> В настройках запрещено одевать и покупать</span> <br>`,
+        PU_GEAR_BUY_FORBIDDEN: `Камня для слота №<span style="color:Lime;">{slotNumber}</span> <span style="color:red;"> нет в наличии </span> <span style="color:Yellow; font-weight:bold;">. В настройках запрещено покупать</span> <br>`,
+        PU_GEAR_INSERT_SUCCESS: `<span style="color:Lime;"> Вставили </span> камень в слот #<span style="color:Lime;">{slotNumber}</span>`,
+        PU_GEAR_BUY_AND_INSERT: `<span style="color:Fuchsia;"> Купили </span> камень и в слот #<span style="color:Lime;">{slotNumber}</span>`,
+        PU_GEAR_LACK_OF_CHAOS: `<span style="color:red;"> Пропускаем </span> слот #<span style="color:Lime;">{slotNumber}</span>: Нет камня и не хватает частиц для покупки <br>`,
+        PU_GEAR_LEVEL_LOCKED: `Слот #<span style="color:Lime;">{slotNumber}</span> <span style="color:red;"> заблокирован</span>: Требуется {petLevel} ур. питомца<br>`,
+        PU_GEAR_ALREADY_MAX_LEVEL: ` и улучшен до максимального уровня: <span style="color:Gold; font-weight:bold;"> {maxGearLevel} </span><br>`,
+        PU_GEAR_UPGRADE_SUCCESS: `. Улучшили до <span style="color:Lime;"> {currentGearLevel} </span> / {maxGearLevel} ур.<br>`,
+        PU_GEAR_LACK_OF_RESOURCES: `. <span style="color:red;">Для улучшения не хватает золота или частиц</span><br>`,
+        PU_GEAR_PROMOTE_SUCCESS: `Цвет питомца повышен до <span style="color: {color}; font-weight:bold;">{colorName}</span><br>`,
+        PU_GEAR_PROMOTE_SKIPPED: `<span style="color:Yellow; font-weight:bold;"> Все слоты полные, но повышение ранга отключено в настройках </span><br>`,
+        PU_PET_COLOR: `Текущий цвет питомца <span style="color: {color}; font-weight:bold;">{colorName}</span><br>`,
+        PU_UPGRADE_FINISH: `<span style="color:Lime; font-weight:bold;"> Улучшение питомца завершено </span>`,
     };
 
     i18nLangData['ru'] = Object.assign(i18nLangData['ru'], i18nLangDataRu);
@@ -591,11 +657,408 @@
         color: 'pink',
     });
 
+    othersPopupButtons.push({
+        get msg() {
+            return I18N('PU_PET_UPGRADE');
+        },
+        get title() {
+            return I18N('PU_PET_UPGRADE_TITLE');
+        },
+        result:async function () {
+            await onClickPetUpgrade();
+        },
+        color: 'pink',
+    });
+
+    async function onClickPetUpgrade(){
+        let message = '';
+        let gearMessage = '';
+        const petUpgrade = await getPetUpgradeSettings();
+
+        if (petUpgrade === 'cancel'){
+            return returnToOtherButtonMenu();
+        }
+
+        const petUpgradeSettings = petUpgrade.settings;
+        let pet = petUpgrade.pet;
+        const petId = petUpgradeSettings.petId;
+
+        message += I18N('PU_UPGRADE_START', {petName: cheats.translate(`LIB_HERO_NAME_${petId}`)})
+        setProgress(message, false);
+
+        const inventoryGet = await Caller.send('inventoryGet');
+        let petPotion = inventoryGet.consumable?.[85] ?? 0;
+        let chaosParticle = inventoryGet.consumable?.[86] ?? 0;
+
+        let gold = (await Caller.send('userGetInfo')).gold;
+        let petGear = inventoryGet.petGear;
+        const libPet = Object.values(lib.data.hero).find((e) => e.id === petId);
+        const libPetGear = Object.values(lib.data.inventoryItem.petGear);
+        const libPetLevels = Object.values(lib.data.level.pet);
+        const maxXp = libPetLevels.at(-1).exp;
+
+        //Улучшить уровень
+        if (petUpgradeSettings.shouldUpgradeLevel) {
+            message += I18N('PU_LEVEL_UPGRADE');
+            setProgress(message, false);
+            if (pet.xp >= maxXp) {
+                message += (I18N('PU_LEVEL_UPGRADE_MAX'));
+            } else if (petPotion <= 0) {
+                message += (I18N('PU_LEVEL_UPGRADE_FAIL'));
+            } else {
+                const totalPotentialXp = pet.xp + petPotion;
+                const affordableLevels = libPetLevels.filter(record => record.exp <= totalPotentialXp);
+                const targetLevelRecord = affordableLevels.at(-1);
+                if (targetLevelRecord && targetLevelRecord.level > pet.level) {
+                    const targetXp = targetLevelRecord.exp;
+                    const amount = targetXp - pet.xp;
+                    try {
+                        await Caller.send({
+                            name: "consumableUsePetXp",
+                            args: { amount: amount, libId: 85, petId: petId }
+                        });
+                        // Обновляем данные питомца
+                        pet.xp = targetXp;
+                        pet.level = targetLevelRecord.level;
+                        petPotion -= amount;
+
+                        message += (I18N('PU_LEVEL_UPGRADE_SUCCESS_TO', { level: pet.level }));
+                    } catch (error) {
+                        setProgress(I18N('PU_UNKNOWN_ERROR'), false);
+                        console.error(error);
+                        return;
+                    }
+                } else {
+                    message += (I18N('PU_LEVEL_UPGRADE_FAIL'));
+                }
+            }
+        } else {
+            message += (I18N('PU_LEVEL_UPGRADE_SKIPPED'));
+        }
+
+        setProgress(message, false);
+        await new Promise((e) => setTimeout(e, 1000));
+        message += (I18N('PU_GEAR_UPGRADE'));
+
+        //Одевание камней и повышение уровня
+        const workWithGears = petUpgradeSettings.shouldEquipGears || petUpgradeSettings.shouldBuyGears;
+        while (workWithGears && chaosParticle > 0 && gold > 0) {
+            gearMessage = '';
+            let colorInfo = getPetColorConfig(pet.color);
+            gearMessage += I18N('PU_PET_COLOR', {color: colorInfo.color, colorName: colorInfo.name});
+
+            const currentColor = pet.color;
+            const colorConfig = libPet.color[currentColor];
+
+            const requiredGears = colorConfig.items;
+            let resourcesExhausted = false;
+
+            for (let i = 0; i < 6; i++) {
+                setProgress(message + gearMessage, false);
+                await new Promise((e) => setTimeout(e, 300));
+
+                const requiredGearId = requiredGears[i];
+                let isEquipped = pet.slots.hasOwnProperty(i);
+
+                if (isEquipped) {
+                    gearMessage += I18N('PU_GEAR_ALREADY_EQUIPPED', {slotNumber: (i + 1)});
+                }
+
+                const gearLib = libPetGear.find(g => g.id === requiredGearId);
+                if (!gearLib) {
+                    continue;
+                }
+
+                if (!isEquipped) {
+                    if (pet.level < (gearLib.petLevel ?? 0)) {
+                        gearMessage += I18N('PU_GEAR_LEVEL_LOCKED', {slotNumber: (i + 1), petLevel: gearLib.petLevel});
+                        continue;
+                    }
+
+                    if (!petUpgradeSettings.shouldEquipGears && !petUpgradeSettings.shouldBuyGears) {
+                        gearMessage += I18N('PU_GEAR_OPERATIONS_FORBIDDEN', {slotNumber: (i + 1)});
+                        continue;
+                    }
+
+                    if ((petGear[requiredGearId] && petGear[requiredGearId] > 0) && petUpgradeSettings.shouldEquipGears) {
+                        try {
+                            await Caller.send({ name: "pet_insertItem", args: { petId: petId, slot: i, useUnlock: false } });
+                            petGear[requiredGearId]--;
+                            pet.slots[i] = 1;
+                            gearMessage += I18N('PU_GEAR_INSERT_SUCCESS', { slotNumber: (i + 1) });
+                        } catch (error) {
+                            setProgress(I18N('PU_UNKNOWN_ERROR'), false);
+                            console.error(error);
+                            return;
+                        }
+                    }
+
+                    else {
+                        if (!petUpgradeSettings.shouldBuyGears) {
+                            gearMessage += I18N('PU_GEAR_BUY_FORBIDDEN', { slotNumber: (i + 1) });
+                            continue;
+                        }
+
+                        const buyPriceChaos = gearLib.unlockCost?.consumable?.["86"] ?? 0;
+                        if (chaosParticle >= buyPriceChaos) {
+                            try {
+                                await Caller.send({ name: "pet_insertItem", args: { petId: petId, slot: i, useUnlock: true } });
+                                chaosParticle -= buyPriceChaos;
+                                pet.slots[i] = 1;
+                                gearMessage += I18N('PU_GEAR_BUY_AND_INSERT', { slotNumber: (i + 1) });
+                            } catch (error) {
+                                setProgress(I18N('PU_UNKNOWN_ERROR'), false);
+                                console.error(error);
+                                return;
+                            }
+                        } else {
+                            gearMessage += I18N('PU_GEAR_LACK_OF_CHAOS', { slotNumber: (i + 1) });
+                            resourcesExhausted = true;
+                            continue;
+                        }
+                    }
+                }
+
+
+                if (pet.slots.hasOwnProperty(i)) {
+                    const currentGearLevel = pet.slots[i];
+                    const maxGearLevel = gearLib.levels2.consumableCost.length + 1;
+
+                    if (currentGearLevel >= maxGearLevel) {
+                        gearMessage += I18N('PU_GEAR_ALREADY_MAX_LEVEL', {maxGearLevel: maxGearLevel});
+                        continue;
+                    }
+                    const maxPossibleUpgrades = maxGearLevel - currentGearLevel;
+                    const singleCostChaos = gearLib.levels2.consumableCost[0];
+                    const singleCostGold = gearLib.levels2.costGold[0];
+
+                    const affordableByChaos = Math.floor(chaosParticle / singleCostChaos);
+                    const affordableByGold = Math.floor(gold / singleCostGold);
+
+                    const levelsToUpgrade = Math.min(maxPossibleUpgrades, affordableByChaos, affordableByGold);
+
+                    if (levelsToUpgrade > 0) {
+                        let slotCalls = [];
+                        for (let up = 0; up < levelsToUpgrade; up++) {
+                            slotCalls.push({ name: "pet_levelUpItem", args: { paid: false, petId: petId, slot: i } });
+                        }
+
+                        try {
+                            await Caller.send(slotCalls);
+                            chaosParticle -= singleCostChaos * levelsToUpgrade;
+                            gold -= singleCostGold * levelsToUpgrade;
+
+                            pet.slots[i] = currentGearLevel + levelsToUpgrade;
+                            gearMessage += I18N('PU_GEAR_UPGRADE_SUCCESS', {currentGearLevel: pet.slots[i], maxGearLevel: maxGearLevel});
+                        } catch (error) {
+                            setProgress(I18N('PU_UNKNOWN_ERROR'), false);
+                            console.error(error);
+                            return;
+                        }
+                    } else if (maxPossibleUpgrades > 0) {
+                        gearMessage += I18N('PU_GEAR_LACK_OF_RESOURCES');
+                        resourcesExhausted = true;
+                    }
+                }
+            }
+            const isReadyForPromote = checkPetReadyForPromote(pet, libPet, libPetGear);
+
+            if (isReadyForPromote) {
+                if (petUpgradeSettings.shouldPromoteRank) {
+                    try {
+                        await Caller.send({ name: "pet_promote", args: { petId: petId } });
+
+                        const availablePets = await Caller.send('pet_getAll');
+                        pet = availablePets.find((e) => e.id == petId);
+
+                        colorInfo = getPetColorConfig(pet.color);
+                        gearMessage += I18N('PU_GEAR_PROMOTE_SUCCESS', { color: colorInfo.color, colorName: colorInfo.name });
+                    } catch (error) {
+                        setProgress(I18N('PU_UNKNOWN_ERROR'), false);
+                        console.error(error);
+                        return;
+                    }
+                } else {
+                    gearMessage += I18N('PU_GEAR_PROMOTE_SKIPPED');
+                    break;
+                }
+            }
+            setProgress(message + gearMessage, false);
+            await new Promise((e) => setTimeout(e, 1000));
+            if (!isReadyForPromote || resourcesExhausted) {
+                break;
+            }
+        }
+        setProgress(message + gearMessage + I18N('PU_UPGRADE_FINISH'), false, hideProgress);
+    }
+
+    function checkPetReadyForPromote(pet, libPet, libPetGear) {
+        const nextColorConfig = libPet.color[pet.color + 1];
+        if (!nextColorConfig) return false;
+
+        const colorConfig = libPet.color[pet.color];
+        if (!colorConfig) return false;
+
+        const requiredGears = colorConfig.items;
+
+        for (let i = 0; i < 6; i++) {
+            if (!pet.slots.hasOwnProperty(i)) return false;
+
+            const requiredGearId = requiredGears[i];
+            const gearLib = libPetGear.find(g => g.id === requiredGearId);
+            if (!gearLib) return false;
+
+            const maxGearLevel = gearLib.levels2.consumableCost.length + 1;
+            const currentGearLevel = pet.slots[i];
+
+            if (currentGearLevel < maxGearLevel) return false;
+        }
+        return true;
+    }
+
+    function getPetColorConfig(colorId) {
+        if (!getPetColorConfig.cache) {
+            const colorConfigMap = [
+                { baseId: 1, count: 1, color: 'graphite' },
+                { baseId: 2, count: 2, color: 'green' },
+                { baseId: 4, count: 3, color: 'blue' },
+                { baseId: 7, count: 4, color: 'violet' }
+            ];
+
+            const generatedColors = colorConfigMap.reduce((acc, { baseId, count, color }) => {
+                for (let i = 0; i < count; i++) {
+                    const id = baseId + i;
+                    const suffix = i > 0 ? ` + ${i}` : '';
+                    acc[id] = {
+                        name: cheats.translate(`LIB_ENUM_HEROCOLOR_${baseId}`) + suffix,
+                        color: color
+                    };
+                }
+                return acc;
+            }, {});
+            generatedColors[11] = {
+                name: cheats.translate('UI_UNAVAILABLE'),
+                color: 'brown'
+            };
+
+            getPetColorConfig.cache = generatedColors;
+        }
+        return getPetColorConfig.cache[colorId] || { name: 'Unknown', color: 'graphite' };
+    }
+
+    function isValidPetUpgradeSettings(data) {
+        if (!data || typeof data !== 'object' || Array.isArray(data)) {
+            return false;
+        }
+        const hasValidPetId = typeof data.petId === 'number';
+        const hasValidLevel = typeof data.shouldUpgradeLevel === 'boolean';
+        const hasValidRank = typeof data.shouldPromoteRank === 'boolean';
+        const hasValidEquip = typeof data.shouldEquipGears === 'boolean';
+        const hasValidBuy = typeof data.shouldBuyGears === 'boolean';
+
+        return hasValidPetId && hasValidLevel && hasValidRank && hasValidEquip && hasValidBuy;
+    }
+
+
+    async function getPetUpgradeSettings() {
+         const availablePets = (await Caller.send('pet_getAll')).filter(pet =>
+                                                                       (pet.level ?? 0) < 130 ||
+                                                                       (pet.color ?? 0) < 10 ||
+                                                                       (pet.slots?.[0] ?? 0) < 25 ||
+                                                                       (pet.slots?.[1] ?? 0) < 50 ||
+                                                                       (pet.slots?.[2] ?? 0) < 50 ||
+                                                                       (pet.slots?.[3] ?? 0) < 25 ||
+                                                                       (pet.slots?.[4] ?? 0) < 50 ||
+                                                                       (pet.slots?.[5] ?? 0) < 50
+                                                                      );
+
+        console.log(availablePets);
+        if (availablePets.length == 0){
+            await popup.confirm(I18N('PU_NO_PETS_AVAILABLE'));
+            return false;
+        }
+        //Получаем сохраненные данные
+        let petUpgradeSettings = null;
+        let savedPetUpgradeSettings = getSaveVal('pu_petUpgradeSettings', {});
+        if (isValidPetUpgradeSettings(savedPetUpgradeSettings)) {
+            petUpgradeSettings = savedPetUpgradeSettings;
+        } else {
+            petUpgradeSettings = {
+                petId: 0,
+                shouldUpgradeLevel: true,
+                shouldPromoteRank: true,
+                shouldEquipGears: true,
+                shouldBuyGears: true
+            };
+        }
+
+        let chekSettings = [];
+        for (const [key, value] of Object.entries(petUpgradeSettings)) {
+            if (key === 'petId') continue;
+
+            const snakeCaseKey = key.replace(/([A-Z])/g, "_\$1").toUpperCase();
+            const labelKey = `PU_${snakeCaseKey}`;
+            const titleKey = `PU_${snakeCaseKey}_TITLE`;
+
+            chekSettings.push({
+                name: key,
+                label: `<span style="color:green;"> ${I18N(labelKey)}</span>`,
+                title: I18N(titleKey),
+                checked: value,
+            });
+        }
+
+        let pets = [];
+        for (let pet of availablePets) {
+            pets.push({
+                name:pet.id,
+                label: cheats.translate(`LIB_HERO_NAME_${pet.id}`),
+                checked: pet.id == petUpgradeSettings.petId,
+                radio: 'pets',
+            });
+        }
+        pets.sort((a, b) => a.label.localeCompare(b.label));
+        if (petUpgradeSettings.petId == 0){
+            pets[0].checked = true;
+        }
+        chekSettings.push(...pets);
+
+
+        let answer = await popup.confirm(
+            I18N('NHR_SELECT_PETS'),
+            [
+                { msg: I18N('NHR_NEXT'), result: true, color: 'green' },
+                { msg: I18N('BTN_CANCEL'), result: false, isCancel: true, color: 'red' },
+            ],
+            chekSettings
+        );
+
+        if (!answer) {
+            return 'cancel';
+        }
+
+        const taskList = popup.getCheckBoxes();
+        for (const item of taskList) {
+            if (petUpgradeSettings.hasOwnProperty(item.name) && item.name !== 'petId') {
+                petUpgradeSettings[item.name] = item.checked;
+                continue;
+            }
+            if (!isNaN(item.name) && item.checked === true) {
+                petUpgradeSettings.petId = Number(item.name);
+            }
+        }
+        setSaveVal('pu_petUpgradeSettings', petUpgradeSettings);
+        const currentPet = availablePets.find(p => p.id === petUpgradeSettings.petId);
+        return {
+            settings: petUpgradeSettings,
+            pet: currentPet
+        };
+    }
+
     async function onClickTitanResources() {
         const titans = await selectTitanss();
         if (!titans){
-            returnToOtherButtonMenu();
-            return;
+            return returnToOtherButtonMenu();
         }
         let needTitanPotion = 0;
         let needArtifactEssence = 0;
@@ -844,20 +1307,6 @@
         let numberOfExchanges = wishCoin;
         let counter = 0;
         while (wishCoin > 0) {
-            /*if (wishCoin >= 10){
-                counter += 10;
-                await Caller.send({name: 'wheelOfFortune_spin', args: {count: 10}});
-                setProgress(I18N('LR_LUCKY_ROAD_PLR_WHEEL_OF_WISHES_PROGRESSROGRESS', {counter: counter, numberOfExchanges: numberOfExchanges }), false, hideProgress);
-                wishCoin -= 10;
-                await new Promise((e) => setTimeout(e, 1000));
-            } else {
-                counter++;
-                await Caller.send({name: 'wheelOfFortune_spin', args: {count: 1}});
-                setProgress(I18N('LR_WHEEL_OF_WISHES_PROGRESS', {counter: counter, numberOfExchanges: numberOfExchanges }), false, hideProgress);
-                wishCoin--;
-                await new Promise((e) => setTimeout(e, 200));
-            }*/
-
             counter++;
             await Caller.send({name: 'wheelOfFortune_spin', args: {count: 1}});
             setProgress(I18N('LR_WHEEL_OF_WISHES_PROGRESS', {counter: counter, numberOfExchanges: numberOfExchanges }), false, hideProgress);
