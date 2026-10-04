@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.27
+// @version          2.28
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -240,6 +240,8 @@
         PU_GEAR_PROMOTE_SKIPPED: `<span style="color:Yellow; font-weight:bold;"> All slots are full, but rank promotion is disabled in settings </span><br>`,
         PU_PET_COLOR: `Current pet rank <span style="color: {color}; font-weight:bold;">{colorName}</span><br>`,
         PU_UPGRADE_FINISH: `<span style="color:Lime; font-weight:bold;"> Pet upgrade complete </span>`,
+        PU_SELECT_PET: `Select a pet`,
+        PU_BUTTON_GO: `Start`
     };
 
     i18nLangData['en'] = Object.assign(i18nLangData['en'], i18nLangDataEn);
@@ -444,6 +446,8 @@
         PU_GEAR_PROMOTE_SKIPPED: `<span style="color:Yellow; font-weight:bold;"> Все слоты полные, но повышение ранга отключено в настройках </span><br>`,
         PU_PET_COLOR: `Текущий цвет питомца <span style="color: {color}; font-weight:bold;">{colorName}</span><br>`,
         PU_UPGRADE_FINISH: `<span style="color:Lime; font-weight:bold;"> Улучшение питомца завершено </span>`,
+        PU_SELECT_PET: `Выберите питомца`,
+        PU_BUTTON_GO: `Начать`,
     };
 
     i18nLangData['ru'] = Object.assign(i18nLangData['ru'], i18nLangDataRu);
@@ -1025,9 +1029,9 @@
 
 
         let answer = await popup.confirm(
-            I18N('NHR_SELECT_PETS'),
+            I18N('PU_SELECT_PET'),
             [
-                { msg: I18N('NHR_NEXT'), result: true, color: 'green' },
+                { msg: I18N('PU_BUTTON_GO'), result: true, color: 'green' },
                 { msg: I18N('BTN_CANCEL'), result: false, isCancel: true, color: 'red' },
             ],
             chekSettings
