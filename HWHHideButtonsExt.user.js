@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.29
+// @version          2.30
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -697,8 +697,9 @@
         const inventoryGet = await Caller.send('inventoryGet');
         let petPotion = inventoryGet.consumable?.[85] ?? 0;
         let chaosParticle = inventoryGet.consumable?.[86] ?? 0;
-
-        let gold = (await Caller.send('userGetInfo')).gold;
+        const userInfo = await Caller.send('userGetInfo');
+        let gold = userInfo.gold;
+        const userLevel = userInfo.level;
         let petGear = inventoryGet.petGear;
         const libPet = Object.values(lib.data.hero).find((e) => e.id === petId);
         const libPetGear = Object.values(lib.data.inventoryItem.petGear);
@@ -709,7 +710,7 @@
         if (petUpgradeSettings.shouldUpgradeLevel) {
             message += I18N('PU_LEVEL_UPGRADE');
             setProgress(message, false);
-            if (pet.xp >= maxXp) {
+            if (pet.xp >= maxXp || pet.level >= userLevel) {
                 message += (I18N('PU_LEVEL_UPGRADE_MAX'));
             } else if (petPotion <= 0) {
                 message += (I18N('PU_LEVEL_UPGRADE_FAIL'));
@@ -718,7 +719,9 @@
                 const affordableLevels = libPetLevels.filter(record => record.exp <= totalPotentialXp);
                 const targetLevelRecord = affordableLevels.at(-1);
                 if (targetLevelRecord && targetLevelRecord.level > pet.level) {
-                    const targetXp = targetLevelRecord.exp;
+                    const xpCappedUserLevel = libPetLevels.find(e => e.level == userLevel).exp;
+                    const xpLeverRecord = targetLevelRecord.exp;
+                    const targetXp = Math.min(xpCappedUserLevel, xpLeverRecord);
                     const amount = targetXp - pet.xp;
                     try {
                         await Caller.send({
@@ -727,7 +730,7 @@
                         });
                         // Обновляем данные питомца
                         pet.xp = targetXp;
-                        pet.level = targetLevelRecord.level;
+                        pet.level = libPetLevels.find(e => e.exp == pet.xp).level;
                         petPotion -= amount;
 
                         message += (I18N('PU_LEVEL_UPGRADE_SUCCESS_TO', { level: pet.level }));
@@ -1025,7 +1028,7 @@
             });
         }
         pets.sort((a, b) => a.label.localeCompare(b.label));
-        if (petUpgradeSettings.petId == 0){
+        if (!pets.some(p => p.checked)){
             pets[0].checked = true;
         }
         chekSettings.push(...pets);
