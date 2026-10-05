@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.30
+// @version          2.31
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -700,7 +700,7 @@
         const userInfo = await Caller.send('userGetInfo');
         let gold = userInfo.gold;
         const userLevel = userInfo.level;
-        let petGear = inventoryGet.petGear;
+        let petGear = inventoryGet.petGear ?? {};
         const libPet = Object.values(lib.data.hero).find((e) => e.id === petId);
         const libPetGear = Object.values(lib.data.inventoryItem.petGear);
         const libPetLevels = Object.values(lib.data.level.pet);
