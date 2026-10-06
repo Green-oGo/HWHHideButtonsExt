@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.31
+// @version          2.32
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -243,7 +243,10 @@
         PU_SELECT_PET: `Select a pet`,
         PU_BUTTON_GO: `Start`,
         PU_GEAR_BUY_UNAVAILABLE: `<span style="color:red;"> Skipping </span> slot #<span style="color:Lime;">{slotNumber}</span>. Item is out of stock, and purchase is unavailable <br>`,
-
+        PU_SHOULD_UPGRADE_GEARS: `Upgrade stones`,
+        PU_SHOULD_UPGRADE_GEARS_TITLE: `Allow the script to automatically upgrade the level of equipped stones for Chaos Particles`,
+        PU_UPGRADE_GEARS_SKIPPED: `. Upgrading <span style="color:red;"> is disabled</span>. Current level: <span style="color:Lime;"> {currentGearLevel} </span> / {maxGearLevel}<br>`,
+        PU_NO_ACTIONS_SELECTED: `<span style="color:red; font-weight:bold;">No actions selected for pet upgrade </span>`,
     };
 
     i18nLangData['en'] = Object.assign(i18nLangData['en'], i18nLangDataEn);
@@ -414,7 +417,6 @@
         TR_NEED_SKIN_STONES: ` Камней до 60: <span style="color:LightSeaGreen;"> {costUpgradingSkin}</span>`,
         TR_SELECT_ALL_TITANS: `<span style="color:green;"> Все имеющиеся титаны </span>`,
         TR_SELECT_ALL_TITANS_TITLE: `Показать информацию для всех имеющихся титанов`,
-
         PU_PET_UPGRADE: `Улучшить питомца`,
         PU_PET_UPGRADE_TITLE: `Одеть и улучшить камни, повысить уровень у выбранного питомца`,
         PU_SHOULD_UPGRADE_LEVEL: `Повысить уровень`,
@@ -451,7 +453,10 @@
         PU_SELECT_PET: `Выберите питомца`,
         PU_BUTTON_GO: `Начать`,
         PU_GEAR_BUY_UNAVAILABLE: `<span style="color:red;"> Пропускаем </span> слот #<span style="color:Lime;">{slotNumber}</span>. Камня нет в наличии,а покупка не доступна <br>`,
-
+        PU_SHOULD_UPGRADE_GEARS: `Улучшать камни`,
+        PU_SHOULD_UPGRADE_GEARS_TITLE: `Разрешить скрипту автоматически повышать уровень установленных камней за частицы хаоса`,
+        PU_UPGRADE_GEARS_SKIPPED: `. Улучшать <span style="color:red;"> запрещено</span>. Текущий уровень: <span style="color:Lime;"> {currentGearLevel} </span> / {maxGearLevel}<br>`,
+        PU_NO_ACTIONS_SELECTED: `<span style="color:red; font-weight:bold;">Не выбрано ни одного действия для улучшения питомца </span>`,
     };
 
     i18nLangData['ru'] = Object.assign(i18nLangData['ru'], i18nLangDataRu);
@@ -752,8 +757,7 @@
         message += (I18N('PU_GEAR_UPGRADE'));
 
         //Одевание камней и повышение уровня
-        const workWithGears = petUpgradeSettings.shouldEquipGears || petUpgradeSettings.shouldBuyGears;
-        while (workWithGears && chaosParticle > 0 && gold > 0) {
+        while (chaosParticle > 0 && gold > 0) {
             gearMessage = '';
             let colorInfo = getPetColorConfig(pet.color);
             gearMessage += I18N('PU_PET_COLOR', {color: colorInfo.color, colorName: colorInfo.name});
@@ -779,7 +783,7 @@
                 if (!gearLib) {
                     continue;
                 }
-
+                //Одевание/покупка камней
                 if (!isEquipped) {
                     if (pet.level < (gearLib.petLevel ?? 0)) {
                         gearMessage += I18N('PU_GEAR_LEVEL_LOCKED', {slotNumber: (i + 1), petLevel: gearLib.petLevel});
@@ -829,7 +833,7 @@
                     }
                 }
 
-
+                //Улучшение камней
                 if (pet.slots.hasOwnProperty(i)) {
                     const currentGearLevel = pet.slots[i];
                     const maxGearLevel = gearLib.levels2.consumableCost.length + 1;
@@ -838,6 +842,11 @@
                         gearMessage += I18N('PU_GEAR_ALREADY_MAX_LEVEL', {maxGearLevel: maxGearLevel});
                         continue;
                     }
+                    if (!petUpgradeSettings.shouldUpgradeGears) {
+                        gearMessage += I18N('PU_UPGRADE_GEARS_SKIPPED', {currentGearLevel: pet.slots[i], maxGearLevel: maxGearLevel});
+                        continue;
+                    }
+
                     const maxPossibleUpgrades = maxGearLevel - currentGearLevel;
                     const singleCostChaos = gearLib.levels2.consumableCost[0];
                     const singleCostGold = gearLib.levels2.costGold[0];
@@ -871,6 +880,7 @@
                     }
                 }
             }
+            //Повышение ранга
             const isReadyForPromote = checkPetReadyForPromote(pet, libPet, libPetGear);
 
             if (isReadyForPromote) {
@@ -962,11 +972,12 @@
         }
         const hasValidPetId = typeof data.petId === 'number';
         const hasValidLevel = typeof data.shouldUpgradeLevel === 'boolean';
-        const hasValidRank = typeof data.shouldPromoteRank === 'boolean';
         const hasValidEquip = typeof data.shouldEquipGears === 'boolean';
         const hasValidBuy = typeof data.shouldBuyGears === 'boolean';
+        const hasValidUpgrade = typeof data.shouldUpgradeGears === 'boolean';
+        const hasValidRank = typeof data.shouldPromoteRank === 'boolean';
 
-        return hasValidPetId && hasValidLevel && hasValidRank && hasValidEquip && hasValidBuy;
+        return hasValidPetId && hasValidLevel && hasValidEquip && hasValidBuy && hasValidUpgrade && hasValidRank;
     }
 
 
@@ -982,7 +993,6 @@
                                                                        (pet.slots?.[5] ?? 0) < 50
                                                                       );
 
-        console.log(availablePets);
         if (availablePets.length == 0){
             await popup.confirm(I18N('PU_NO_PETS_AVAILABLE'));
             return false;
@@ -996,9 +1006,10 @@
             petUpgradeSettings = {
                 petId: 0,
                 shouldUpgradeLevel: true,
-                shouldPromoteRank: true,
                 shouldEquipGears: true,
-                shouldBuyGears: true
+                shouldBuyGears: true,
+                shouldUpgradeGears: true,
+                shouldPromoteRank: true,
             };
         }
 
@@ -1032,22 +1043,37 @@
             pets[0].checked = true;
         }
         chekSettings.push(...pets);
+        let isConfigInvalid = true;
+        let taskList = [];
+        while (isConfigInvalid ){
+            let answer = await popup.confirm(
+                I18N('PU_SELECT_PET'),
+                [
+                    { msg: I18N('PU_BUTTON_GO'), result: true, color: 'green' },
+                    { msg: I18N('BTN_CANCEL'), result: false, isCancel: true, color: 'red' },
+                ],
+                chekSettings
+            );
 
+            if (!answer) {
+                return 'cancel';
+            }
 
-        let answer = await popup.confirm(
-            I18N('PU_SELECT_PET'),
-            [
-                { msg: I18N('PU_BUTTON_GO'), result: true, color: 'green' },
-                { msg: I18N('BTN_CANCEL'), result: false, isCancel: true, color: 'red' },
-            ],
-            chekSettings
-        );
+            taskList = popup.getCheckBoxes();
 
-        if (!answer) {
-            return 'cancel';
+            const hasAnyAction = taskList.some(item =>
+                                               petUpgradeSettings.hasOwnProperty(item.name) &&
+                                               item.name !== 'petId' &&
+                                               item.checked === true
+                                              );
+
+            if (hasAnyAction) {
+                isConfigInvalid = false;
+            } else {
+                await popup.confirm (I18N('PU_NO_ACTIONS_SELECTED'));
+            }
         }
 
-        const taskList = popup.getCheckBoxes();
         for (const item of taskList) {
             if (petUpgradeSettings.hasOwnProperty(item.name) && item.name !== 'petId') {
                 petUpgradeSettings[item.name] = item.checked;
