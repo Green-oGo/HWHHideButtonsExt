@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.32
+// @version          2.33
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -152,7 +152,7 @@
         IS_TURN_OFF_TIMER_MESSAGE: 'Hourly automatic skills improvement deactivated',
         IS_TURN_ON_TIMER_TITLE: 'Turn on hourly automatic skills improvement',
         IS_TURN_OFF_TIMER_TITLE: 'Turn off hourly automatic skills improvement',
-        IS_IMPROVING_SKILLS_TIMER_RESULT: `Hero skills improved <span style="color: Lime;">{skillPointsSpent}</span> times <br> Next upgrade in 1 hour`,
+        IS_IMPROVING_SKILLS_TIMER_RESULT: `Hero skills improved <span style="color: Lime;">{skillPointsSpent}</span> times <br> Next upgrade in <span style="color:Lime;"> 25 </span> minutes`,
         LR_LUCKY_ROAD:'Lucky Road',
         LR_LUCKY_ROAD_TITLE:'"Spend lucky" coins',
         LR_NO_EVENT: 'The event is not active',
@@ -362,7 +362,7 @@
         IS_TURN_ON_TIMER_TITLE: 'Включить автоматическое улучшение умений каждый час',
         IS_TURN_OFF_TIMER_TITLE: 'Выключить автоматическое улучшение умений каждый час',
         IS_IMPROVING_SKILLS_TIMER_RESULT: `Умения героев улучшены <span style="color: Lime;">{skillPointsSpent}</span> раз
-          <br> Следующее улучшение умений через час`,
+          <br> Следующее улучшение умений через <span style="color:Lime;"> 25 </span> минут`,
         LR_LUCKY_ROAD:'Дорога удачи',
         LR_LUCKY_ROAD_TITLE:'Потратить "Монеты удачи"',
         LR_NO_EVENT: 'Ивент не активен',
@@ -467,6 +467,8 @@
         document.head.appendChild(style);
     });
 
+    const taskMan = new HWHClasses.TaskManager();
+
     //Для включения / отключения графики
     let buttonState = null;
     let graphicsEnabled = true;
@@ -501,26 +503,17 @@
 
     let automaticSkillImprovement = false;
     let automaticSkillImprovementTimer = false;
-    Events.on('startGame', async () => {
+    Events.on('startGame', () => {
         //Для включения / выключения автоматического улучшения умений
         automaticSkillImprovement = getSaveVal('automaticSkillImprovement', false);
         automaticSkillImprovementTimer = getSaveVal('automaticSkillImprovementTimer', false);
+        //console.log("automaticSkillImprovement", automaticSkillImprovement);
+        //console.log("automaticSkillImprovementTimer", automaticSkillImprovementTimer);
         if (automaticSkillImprovement) {
-            await automaticallyImproveHeroesSkills();
             if (automaticSkillImprovementTimer) {
-                for (let i = 1; i <= 6; i++){
-                    const startTime = Date.now();
-                    const hour = 57 * 60 * 1000; // 57 минут в миллисекундах
-                    while (Date.now() - startTime < hour) {
-                        await new Promise((e) => setTimeout(e, 60000)); // таймаут 60 секунд
-                        console.log('Прошло времени:', Math.round((Date.now() - startTime) / 1000), 'сек');
-                    }
-                    let stopTheTimer = await automaticallyImproveHeroesSkills();
-                    if (stopTheTimer) {
-                        console.log("Улучшение умений по времени остановлено");
-                        break;
-                    }
-                }
+                startHourlySkillImprovement();
+            } else {
+               automaticallyImproveHeroesSkills();
             }
         }
     });
@@ -682,6 +675,27 @@
         },
         color: 'pink',
     });
+
+    async function startHourlySkillImprovement() {
+        let stopTheTimer = await automaticallyImproveHeroesSkills();
+        if (stopTheTimer) {
+            console.log("Улучшение умений по времени остановлено после первого раза");
+            return;
+        }
+        taskMan.addTask({
+            id: 'IS_hourlySkillImprovement',
+            desc: 'Прокачка навыков, каждые 25 минут',
+            execute: async () => {
+                stopTheTimer = await automaticallyImproveHeroesSkills();
+                if (stopTheTimer) {
+                    console.log("Улучшение умений по времени остановлено после срабатывания таймера");
+                    taskMan.removeTaskById('IS_hourlySkillImprovement')
+                }
+            },
+            executeAt: 1500, // 25 минут
+            repeat: true,
+        });
+    }
 
     async function onClickPetUpgrade(){
         let message = '';
@@ -1045,7 +1059,7 @@
         chekSettings.push(...pets);
         let isConfigInvalid = true;
         let taskList = [];
-        while (isConfigInvalid ){
+        while (isConfigInvalid){
             let answer = await popup.confirm(
                 I18N('PU_SELECT_PET'),
                 [
