@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.33
+// @version          2.34
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -129,7 +129,7 @@
         IS_IMPROVING_SKILLS_TITLE: 'Automatic Skills Improvement',
         IS_IMPROVING_SKILLS_MESSAGE: `To enable automatic skills improvement, you need to select heroes and turn on automatic improvement.
           The script will notify you when the skills for selected heroes are upgraded to the maximum available level. The order of heroes for improvement is determined by ID.
-          <br><br>The first skills improvement occurs during game loading. If you turn on a timer, repeated improvements will occur every hour.
+          <br><br>The first skills improvement occurs during game loading. If you turn on a timer, repeated improvements will occur after 25 minutes.
           <br><br><span style='color: Lime;'>When automatic improvement is disabled, skills won't be upgraded regardless of the timer status</span>
           <br><br>You need to reload the game to apply changes`,
         IS_TURN_ON_SKILL_IMPROVEMENT: 'Turn On',
@@ -338,7 +338,7 @@
         IS_IMPROVING_SKILLS_MESSAGE: `Для автоматического улучшения умений необходимо выбрать героев, и включить автоматическое улучшение.
           Скрипт оповестит, когда умения для выбранных героев будут улучшены до максимально доступного уровня. Очередность героев для улучшения определяется по Id.
           <br> <br> Первое улучшение умений происходит во время загрузки игры.
-          Если добавить таймер, то повторное улучшение умений будет происходить каждый час.
+          Если добавить таймер, то повторное улучшение будет происходить каждые 25 минут.
           <br> <br> <span style="color: Lime;">При выключении автоматического улучшения умения не улучшаются, независимо от состояния таймера</span>
           <br> <br> Для применения изменений необходимо перезагрузить игру`,
         IS_TURN_ON_SKILL_IMPROVEMENT: 'Включить',
@@ -457,6 +457,10 @@
         PU_SHOULD_UPGRADE_GEARS_TITLE: `Разрешить скрипту автоматически повышать уровень установленных камней за частицы хаоса`,
         PU_UPGRADE_GEARS_SKIPPED: `. Улучшать <span style="color:red;"> запрещено</span>. Текущий уровень: <span style="color:Lime;"> {currentGearLevel} </span> / {maxGearLevel}<br>`,
         PU_NO_ACTIONS_SELECTED: `<span style="color:red; font-weight:bold;">Не выбрано ни одного действия для улучшения питомца </span>`,
+
+        IS_SELECT_ALL_HEROES: `<span style="color:green;"> Все имеющиеся герои </span>`,
+        IS_SELECT_ALL_HEROES_TITLE: `Улучшать навыки всем имеющиемся героям`,
+
     };
 
     i18nLangData['ru'] = Object.assign(i18nLangData['ru'], i18nLangDataRu);
@@ -1647,7 +1651,27 @@
 
     async function automaticallyImproveHeroesSkills() {
         let stopTheTimer = false;
+
         let selectedHeroIdsForImprovement = getSaveVal('selectedHeroIdsForImprovement', []);
+
+        let selectAllHeroes = getSaveVal('IS_selectAllHeroes', false);
+
+        if(typeof selectAllHeroes === 'boolean' && selectAllHeroes == true){
+            let heroes = await getAllHeroesWithoutMaxSkills();
+            let newListHeroIds = [];
+            for (let hero of heroes) {
+                newListHeroIds.push({
+                    id: hero.id,
+                    name: cheats.translate(`LIB_HERO_NAME_${hero.id}`),
+                });
+            }
+            newListHeroIds = newListHeroIds.sort((a, b) => a.name.localeCompare(b.name));
+            selectedHeroIdsForImprovement = newListHeroIds.map(h => h.id);
+        }
+
+        console.log("selectedHeroIdsForImprovement");
+        console.log(selectedHeroIdsForImprovement);
+
         if (selectedHeroIdsForImprovement.length == 0) {
             confShow(I18N('IS_NO_HEROES_SELECTED'));
             stopTheTimer = true;
@@ -2008,51 +2032,42 @@
             returnToImprovingSkillssMenu();
             return;
         }
+
+        let selectAllHeroes = getSaveVal('IS_selectAllHeroes', false);
+        if(typeof selectAllHeroes !== 'boolean'){
+            selectAllHeroes = false;
+        }
+
         let selectedHeroIdsForImprovement = getSaveVal('selectedHeroIdsForImprovement', []);
         if (!Array.isArray(selectedHeroIdsForImprovement)){
             selectedHeroIdsForImprovement = [];
         }
+        selectedHeroIdsForImprovement = selectedHeroIdsForImprovement.map(Number);
+
+        //console.log(selectedHeroIdsForImprovement);
+
         let newListHeroIds = [];
-        //Пересобираем список чекбоксов
-        if (selectedHeroIdsForImprovement.length > 0){
-            for (let hero of heroes) {
-                let newHero = true;
-                for (let heroId of selectedHeroIdsForImprovement) {
-                    if (hero.id == Number(heroId)) {
-                        newListHeroIds.push({
-                            name: hero.id,
-                            label: cheats.translate(`LIB_HERO_NAME_${hero.id}`),
-                            //title: button.title,
-                            checked: true,
-                        });
-                        newHero = false;
-                        break;
-                    }
-                }
-                if (newHero) {
-                    newListHeroIds.push({
-                        name: hero.id,
-                        label: cheats.translate(`LIB_HERO_NAME_${hero.id}`),
-                        //title: button.title,
-                        checked: false,
-                    });
-                }
-            }
+
+        newListHeroIds.push({
+            name: 'selectAllHeroes',
+            label: I18N('IS_SELECT_ALL_HEROES'),
+            title: I18N('IS_SELECT_ALL_HEROES_TITLE'),
+            checked: selectAllHeroes,
+        });
+
+        //Собираем список героев
+        for (let hero of heroes) {
+            newListHeroIds.push({
+                name: hero.id,
+                label: cheats.translate(`LIB_HERO_NAME_${hero.id}`),
+                //title: button.title,
+                checked: selectedHeroIdsForImprovement.includes(Number(hero.id)),
+            });
         }
 
-        //Впервые собираем список чекбоксов
-        if (selectedHeroIdsForImprovement.length == 0){
-            for (let hero of heroes) {
-                newListHeroIds.push({
-                    name: hero.id,
-                    label: cheats.translate(`LIB_HERO_NAME_${hero.id}`),
-                    //title: button.title,
-                    checked: false,
-                });
-            }
-        }
         //console.log(newListHeroIds);
         newListHeroIds = newListHeroIds.sort((a, b) => a.label.localeCompare(b.label));
+
         let answer = await popup.confirm(
             I18N('IS_SELECT_HEROES'),
             [
@@ -2066,13 +2081,23 @@
             return;
         }
         const taskList = popup.getCheckBoxes();
+
+        selectAllHeroes = taskList[0].checked;
+        if (selectAllHeroes) {
+            setSaveVal('IS_selectAllHeroes', selectAllHeroes);
+            return returnToImprovingSkillssMenu();
+        }
+
         selectedHeroIdsForImprovement = [];
+
         for (let hero of taskList) {
             if (hero.checked == true) {
-                selectedHeroIdsForImprovement.push(hero.name);
+                selectedHeroIdsForImprovement.push(Number(hero.name));
             }
         }
+
         setSaveVal('selectedHeroIdsForImprovement', selectedHeroIdsForImprovement);
+        setSaveVal('IS_selectAllHeroes', selectAllHeroes);
         returnToImprovingSkillssMenu();
     }
 
