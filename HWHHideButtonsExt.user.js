@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.35
+// @version          2.36
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -247,6 +247,8 @@
         PU_SHOULD_UPGRADE_GEARS_TITLE: `Allow the script to automatically upgrade the level of equipped stones for Chaos Particles`,
         PU_UPGRADE_GEARS_SKIPPED: `. Upgrading <span style="color:red;"> is disabled</span>. Current level: <span style="color:Lime;"> {currentGearLevel} </span> / {maxGearLevel}<br>`,
         PU_NO_ACTIONS_SELECTED: `<span style="color:red; font-weight:bold;">No actions selected for pet upgrade </span>`,
+        IS_SELECT_ALL_HEROES: `<span style="color:green;"> All owned heroes </span>`,
+        IS_SELECT_ALL_HEROES_TITLE: `Upgrade skills for all owned heroes`,
     };
 
     i18nLangData['en'] = Object.assign(i18nLangData['en'], i18nLangDataEn);
@@ -457,7 +459,6 @@
         PU_SHOULD_UPGRADE_GEARS_TITLE: `Разрешить скрипту автоматически повышать уровень установленных камней за частицы хаоса`,
         PU_UPGRADE_GEARS_SKIPPED: `. Улучшать <span style="color:red;"> запрещено</span>. Текущий уровень: <span style="color:Lime;"> {currentGearLevel} </span> / {maxGearLevel}<br>`,
         PU_NO_ACTIONS_SELECTED: `<span style="color:red; font-weight:bold;">Не выбрано ни одного действия для улучшения питомца </span>`,
-
         IS_SELECT_ALL_HEROES: `<span style="color:green;"> Все имеющиеся герои </span>`,
         IS_SELECT_ALL_HEROES_TITLE: `Улучшать навыки всем имеющиемся героям`,
 
