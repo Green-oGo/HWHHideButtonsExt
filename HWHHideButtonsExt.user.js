@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.34
+// @version          2.35
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -128,9 +128,9 @@
         IS_IMPROVING_SKILLS: 'Skills Improvement',
         IS_IMPROVING_SKILLS_TITLE: 'Automatic Skills Improvement',
         IS_IMPROVING_SKILLS_MESSAGE: `To enable automatic skills improvement, you need to select heroes and turn on automatic improvement.
-          The script will notify you when the skills for selected heroes are upgraded to the maximum available level. The order of heroes for improvement is determined by ID.
+          The script will notify you when the skills for selected heroes are upgraded to the maximum available level.
           <br><br>The first skills improvement occurs during game loading. If you turn on a timer, repeated improvements will occur after 25 minutes.
-          <br><br><span style='color: Lime;'>When automatic improvement is disabled, skills won't be upgraded regardless of the timer status</span>
+          <br><br><span style='color: red;'>When automatic improvement is disabled, skills won't be upgraded regardless of the timer status</span>
           <br><br>You need to reload the game to apply changes`,
         IS_TURN_ON_SKILL_IMPROVEMENT: 'Turn On',
         IS_TURN_ON_SKILL_IMPROVEMENT_TITLE: 'Turn on automatic skills improvement',
@@ -336,10 +336,10 @@
         IS_IMPROVING_SKILLS: 'Улучшение умений',
         IS_IMPROVING_SKILLS_TITLE: 'Автоматическое улучшение умений героев',
         IS_IMPROVING_SKILLS_MESSAGE: `Для автоматического улучшения умений необходимо выбрать героев, и включить автоматическое улучшение.
-          Скрипт оповестит, когда умения для выбранных героев будут улучшены до максимально доступного уровня. Очередность героев для улучшения определяется по Id.
+          Скрипт оповестит, когда умения для выбранных героев будут улучшены до максимально доступного уровня.
           <br> <br> Первое улучшение умений происходит во время загрузки игры.
           Если добавить таймер, то повторное улучшение будет происходить каждые 25 минут.
-          <br> <br> <span style="color: Lime;">При выключении автоматического улучшения умения не улучшаются, независимо от состояния таймера</span>
+          <br> <br> <span style="color: red;">При выключении автоматического улучшения умения не улучшаются, независимо от состояния таймера</span>
           <br> <br> Для применения изменений необходимо перезагрузить игру`,
         IS_TURN_ON_SKILL_IMPROVEMENT: 'Включить',
         IS_TURN_ON_SKILL_IMPROVEMENT_TITLE: 'Включить автоматическое улучшение умений',
