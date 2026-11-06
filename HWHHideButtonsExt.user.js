@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.36
+// @version          2.37
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -525,15 +525,7 @@
 
     //Определение активных ивентов
     Events.on('startGame', () => {
-        const activeEvents = Object.values(lib.data.specialQuestEvent.type)
-        .filter(event => {
-            const questDates = event.requirement?.questEventDates;
-            if (!questDates) return false;
-            const endDate = new Date(`${questDates.endDate}T00:00:00Z`);
-            const endTimeMs = endDate.getTime() + (2 * 60 * 60 * 1000);
-            const startDate = new Date(questDates.startDate);
-            return endTimeMs >= Date.now() && startDate <= new Date();
-        })
+        const activeEvents = Object.values(lib.data.specialQuestEvent.type).filter(event => isQuestActive(event));
 
         console.log(activeEvents);
         //Дорога удачи
@@ -561,7 +553,7 @@
                     return I18N('AC_IMPROVE_CASTLE_TITLE');
                 },
                 result:async function () {
-                    await onClickImproveCastle();
+                    await onClickImproveCastle(activeEvents);
                 },
                 color: 'pink',
             });
@@ -1266,25 +1258,17 @@
         });
     }
 
-    async function onClickImproveCastle() {
+    async function onClickImproveCastle(activeEvents) {
         let clanCastle_getInfo = await Caller.send('clanDomination_getCastleInfo');
         if (clanCastle_getInfo == null){
             confShow(I18N('LR_NO_EVENT'));
             return;
         }
 
-        const activeEventQuestChains = Object.values(lib.data.specialQuestEvent.type)
+        const activeEventQuestChains = activeEvents
         .filter(event => {
-            const dates = event.requirement?.questEventDates;
-            if (!dates) return false;
-
-            const now = new Date();
-            const start = new Date(dates.startDate + 'T02:00:00Z');
-            const end = new Date(dates.endDate + 'T02:00:00Z');
-            const isActive = start <= now && now <= end;
             const isValidLocale = event.localeKey === "LIB_SPECIAL_QUEST_EVENT_NAME_476" || event.localeKey === "LIB_SPECIAL_QUEST_EVENT_NAME_667";
-
-            return isActive && isValidLocale;
+            return isValidLocale;
         })
         .flatMap(event => event.questChains);
         console.log(activeEventQuestChains);
@@ -1645,6 +1629,15 @@
             answer();
         }
     };
+
+    function isQuestActive(questEvent, now = new Date()) {
+        const dates = questEvent.requirement?.questEventDates;
+        if (!dates) return false;
+
+        const start = new Date(`${dates.startDate}T02:00:00Z`);
+        const end = new Date(`${dates.endDate}T02:00:00Z`);
+        return start <= now && now <= end;
+    }
 
     function returnToImprovingSkillssMenu() {
         onClickImprovingSkillss();
