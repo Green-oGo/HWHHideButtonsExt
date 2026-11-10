@@ -3,7 +3,7 @@
 // @name:en          HWHHideButtonsExt
 // @name:ru          HWHHideButtonsExt
 // @namespace        HWHHideButtonsExt
-// @version          2.37
+// @version          2.38
 // @description      Extension for HeroWarsHelper script
 // @description:en   Extension for HeroWarsHelper script
 // @description:ru   Расширение для скрипта HeroWarsHelper
@@ -147,11 +147,11 @@
         IS_SKILLS_IMPROVED_TO_MAXIMUM_LEVEL: 'Maximum available hero skill level reached. Improve current heroes or select different ones',
         IS_NOT_ENOUGH_GOLD: 'Not enough gold to further improve hero skills',
         IS_TURN_ON_TIMER: 'Enable Timer',
-        IS_TURN_ON_TIMER_MESSAGE: 'Hourly automatic skills improvement activated',
+        IS_TURN_ON_TIMER_MESSAGE: 'Automatic skills improvement activated',
         IS_TURN_OFF_TIMER: 'Disable Timer',
-        IS_TURN_OFF_TIMER_MESSAGE: 'Hourly automatic skills improvement deactivated',
-        IS_TURN_ON_TIMER_TITLE: 'Turn on hourly automatic skills improvement',
-        IS_TURN_OFF_TIMER_TITLE: 'Turn off hourly automatic skills improvement',
+        IS_TURN_OFF_TIMER_MESSAGE: 'Automatic skills improvement deactivated',
+        IS_TURN_ON_TIMER_TITLE: 'Turn on automatic skills improvement',
+        IS_TURN_OFF_TIMER_TITLE: 'Turn off automatic skills improvement',
         IS_IMPROVING_SKILLS_TIMER_RESULT: `Hero skills improved <span style="color: Lime;">{skillPointsSpent}</span> times <br> Next upgrade in <span style="color:Lime;"> 25 </span> minutes`,
         LR_LUCKY_ROAD:'Lucky Road',
         LR_LUCKY_ROAD_TITLE:'"Spend lucky" coins',
@@ -353,16 +353,16 @@
         IS_HEROES_TITLE: 'Выбрать героев для улучшения умений',
         IS_SELECT_HEROES: 'Выберите героев, <br> которым улучшать умения',
         IS_HAVE_NO_HEROES: 'У Вас нет героев, которым можно улучшить умения',
-        IS_NO_HEROES_SELECTED: 'Автоматическое улучшение умений включено, но герои не выбраны. <br>Выберите героев или выключите автоматическое улучшение уменийА.',
+        IS_NO_HEROES_SELECTED: 'Автоматическое улучшение умений включено, но герои не выбраны. <br>Выберите героев или выключите автоматическое улучшение умений.',
         IS_IMPROVING_SKILLS_RESULT: 'Умения героев улучшены <span style="color: Lime;">{skillPointsSpent}</span> раз',
         IS_SKILLS_IMPROVED_TO_MAXIMUM_LEVEL: 'Достигнут максимальный доступный уровень умений героев. Улучшите текущих героев или выберите других',
         IS_NOT_ENOUGH_GOLD: 'Для дальнейшего улучшения умений героя недостаточно золота',
         IS_TURN_ON_TIMER: 'Добавить таймер',
-        IS_TURN_ON_TIMER_MESSAGE: 'Автоматическое улучшение умений каждый час включено',
+        IS_TURN_ON_TIMER_MESSAGE: 'Автоматическое улучшение умений по таймеру включено',
         IS_TURN_OFF_TIMER: 'Убрать таймер',
-        IS_TURN_OFF_TIMER_MESSAGE: 'Автоматическое улучшение умений каждый час выключено',
-        IS_TURN_ON_TIMER_TITLE: 'Включить автоматическое улучшение умений каждый час',
-        IS_TURN_OFF_TIMER_TITLE: 'Выключить автоматическое улучшение умений каждый час',
+        IS_TURN_OFF_TIMER_MESSAGE: 'Автоматическое улучшение умений по таймеру выключено',
+        IS_TURN_ON_TIMER_TITLE: 'Включить автоматическое улучшение умений',
+        IS_TURN_OFF_TIMER_TITLE: 'Выключить автоматическое улучшение умений',
         IS_IMPROVING_SKILLS_TIMER_RESULT: `Умения героев улучшены <span style="color: Lime;">{skillPointsSpent}</span> раз
           <br> Следующее улучшение умений через <span style="color:Lime;"> 25 </span> минут`,
         LR_LUCKY_ROAD:'Дорога удачи',
